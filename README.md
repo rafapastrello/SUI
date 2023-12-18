@@ -50,7 +50,11 @@ O administrador pode:
 
 ### 4. Login
 
-O sistema exige o cadastro dos usuários para que possam acessar as funcionalidades do cidadão ou administrador.
+- O acesso às funcionalidades do sistema requer o cadastro dos usuários.
+
+- Há distinção entre usuários comuns (cidadãos) e administradores.
+
+- O login é necessário para autenticar e autorizar o acesso a funcionalidades específicas com base no tipo de usuário.
 
 ## Projeto de Estudo em Python
 
