@@ -64,4 +64,4 @@ Este projeto serve como um exercício de aprendizado em Python, e futuras implem
 
 - Integração de funcionalidades avançadas para uma experiência mais profissional e abrangente.
 
-##### Por: rafllosilva
+##### Por:  :octocat: rafllosilva
