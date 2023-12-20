@@ -1,0 +1,14 @@
+A função getpass_with_mask(prompt) usada para exibir " * " quando o usuário digita sua senha(esta funcao foi criada pelo CHATGPT) possui algumas consideracoes e LIMITAÇÕES: 
+
+1- Windows e Unix-like:
+    O codigo tenta detectar automaticamente se esta sendo executado em um ambiente Windows ou Unix-like para usar a logica apropriada. No entanto, pode haver situacoes ou plataformas especificas que nao foram consideradas. Teste em diferentes ambientes para garantir a compatibilidade.
+2- Compatibilidade com a Biblioteca getpass:
+    A funcionalidade especifica de substituicao de caracteres por "*" depende da implementacao da biblioteca getpass no Python para cada plataforma. Em sistemas mais antigos ou especificos, pode haver variacoes no comportamento.
+3- Seguranca Basica:
+    A substituicao de caracteres por "*" e uma pratica comum para fornecer uma camada minima de seguranca ao digitar senhas em terminais. No entanto, para aplicativos que exigem um alto nivel de seguranca, considere usar bibliotecas especificas ou metodos mais avancados para a entrada segura de senhas.
+4- Dependencia do Console:
+    O codigo depende do console para a manipulacao adequada dos eventos de teclado. Em alguns ambientes (por exemplo, IDEs ou terminais web), pode haver comportamentos diferentes.
+5- Testes Extensivos:
+    Realize testes extensivos para garantir que o codigo funcione corretamente em diferentes cenarios e plataformas. Isso pode incluir testes especificos de internacionalizacao, caracteres especiais e diferentes configuracoes de console.
+6- Entrada de Senha em Ambientes Graficos:
+    Este codigo e projetado para ambientes de terminal. Se o seu aplicativo estiver em um ambiente grafico, a entrada de senha pode ser manipulada de maneira diferente, e voce pode precisar de uma abordagem diferente.
