@@ -1,0 +1,5 @@
+def menu_principal():
+    """
+    - Função responsável por exibir o menu principal do sistema, dando liberdade ao usuário escolher entre CIDADÃO, ADMINISTRADOR, ou encerrar o sistema;
+    - Caso o usuário escolha a opção 1, ele é redirecionado ao arquivo 'tela_cidadao.py', caso ele escolha a opção 2, ele é redirecionado ao arquivo 'tela_administrador.py'. 
+    """

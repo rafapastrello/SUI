@@ -1,0 +1,7 @@
+def menu_cidadao():
+    """
+    - Função para verificar se o cliente já está cadastrado ou não, se estiver cadastrado, ele é redirecionado a função 'cidadao_cadastrado' se não estiver cadastrado, ele é redirecionado à função 'menu_cadastro_cidadao';
+    - Não recebe parâmetros;
+    - Exemplo de uso:
+    >>> menu_cidadao()
+    """
