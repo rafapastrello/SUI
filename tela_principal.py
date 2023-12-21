@@ -1,5 +1,5 @@
 from tela_cidadao import menu_cidadao
-import tela_administrador
+from tela_administrador import menu_administrador
 
 def menu_principal():
     while True:
@@ -25,7 +25,7 @@ def menu_principal():
             menu_cidadao()
         elif opcao == "2":
             print("\n - TELA DO ADMINISTRADOR - \n")
-
+            menu_administrador()
         else:
             print("\n - OPÇÃO INVÁLIDA - \n")
 
