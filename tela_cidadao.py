@@ -33,11 +33,11 @@ def menu_cidadao():
 
 def cidadao_cadastrado():
     email_cidadao = input(" Digite seu email: ")
-
     while email_cidadao == "":
         print("\n - INFORME UM EMAIL - \n")
         email_cidadao = input(" Digite seu email: ")
     
+    # Verifica se o email informado é existente no DB
     cursor.execute(" SELECT email_usuario FROM usuarios WHERE categoria_usuario = 'Cidadão' AND email_usuario = ? ", (email_cidadao,))
     verifica_email = cursor.fetchone()
     
@@ -49,7 +49,8 @@ def cidadao_cadastrado():
         while senha_cidadao == "":
             print("\n - INFORME UMA SENHA - \n")
             senha_cidadao = getpass_with_mask(" Digite sua senha: ")
-        
+
+        # Verifica se a senha informada é válida
         cursor.execute(" SELECT senha_usuario FROM usuarios WHERE categoria_usuario = 'Cidadão' AND email_usuario = ? AND senha_usuario = ? ", (email_cidadao, senha_cidadao,))
         verifica_senha = cursor.fetchone()
         
@@ -57,11 +58,14 @@ def cidadao_cadastrado():
             print("\n - SENHA INVÁLIDA - \n")
             menu_cidadao()
         else:
+            # Obtém o nome do cidadão
             cursor.execute(" SELECT nome_usuario FROM usuarios WHERE categoria_usuario = 'Cidadão' AND email_usuario = ? AND senha_usuario = ? ", (email_cidadao, senha_cidadao,))
             nome_cidadao = cursor.fetchone()
 
+            # Obtém o ID do cidadão
             cursor.execute(" SELECT id_usuario FROM usuarios WHERE categoria_usuario = 'Cidadão' AND email_usuario = ? AND senha_usuario = ? ", (email_cidadao, senha_cidadao,))
             id_cidadao = cursor.fetchone()
+
             print(f"""
         =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
         |    - SEJA BEM-VINDO À SUI - Soluções Urbanas Integradas !!! -    |
@@ -85,13 +89,13 @@ def menu_cadastro_cidadao():
 
 >>> Escolha a opção: """)
         if opcao == "1":
-            cadastrar_cidadao()
+            cadastra_cidadao()
         elif opcao == "2":
             menu_cidadao()
         else:
-            print(" - OPÇÃO INVÁLIDA - ")
+            print("\n - OPÇÃO INVÁLIDA - \n")
 
-def cadastrar_cidadao():
+def cadastra_cidadao():
     while True:
         nome_cidadao = input(" Digite seu nome: ").upper()
         while nome_cidadao == "":
@@ -128,6 +132,7 @@ def cadastrar_cidadao():
             print("\n - AS SENHAS FORNECIDAS NÃO CORRESPONDEM - \n")
             confirma_senha_cidadao = getpass_with_mask(" Confirme sua senha: ")
 
+        # Insere os dados informados na tabela 'usuarios' com a categoria "Cidadão", por padrão
         cursor.execute(""" INSERT INTO usuarios (categoria_usuario, cpf_usuario, data_nascimento_usuario, email_usuario, nome_usuario, senha_usuario, telefone_usuario) VALUES ('Cidadão',?,?,?,?,?,?) """, (cpf_cidadao, data_nascimento_cidadao, email_cidadao, nome_cidadao, senha_cidadao, telefone_cidadao,))
         conexao_DB.commit()
 

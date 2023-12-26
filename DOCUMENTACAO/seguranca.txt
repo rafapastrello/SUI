@@ -1,4 +1,4 @@
-A função getpass_with_mask(prompt) usada para exibir " * " quando o usuário digita sua senha(esta funcao foi criada pelo CHATGPT) possui algumas consideracoes e LIMITAÇÕES: 
+A funcao getpass_with_mask(prompt) usada para exibir " * " quando o usuario digita sua senha(esta funcao foi criada pelo CHATGPT) possui algumas consideracoes e LIMITACOES: 
 
 1- Windows e Unix-like:
     O codigo tenta detectar automaticamente se esta sendo executado em um ambiente Windows ou Unix-like para usar a logica apropriada. No entanto, pode haver situacoes ou plataformas especificas que nao foram consideradas. Teste em diferentes ambientes para garantir a compatibilidade.

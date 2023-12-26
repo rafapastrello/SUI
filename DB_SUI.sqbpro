@@ -1,101 +1,37 @@
-<?xml version="1.0" encoding="UTF-8"?><sqlb_project><db path="C:/Users/Rafaela Pastrelolo/OneDrive/Documentos/GitHub/SUI/DB_SUI.db" readonly="0" foreign_keys="1" case_sensitive_like="0" temp_store="0" wal_autocheckpoint="1000" synchronous="2"/><attached/><window><main_tabs open="structure browser pragmas query" current="3"/></window><tab_structure><column_width id="0" width="300"/><column_width id="1" width="0"/><column_width id="2" width="100"/><column_width id="3" width="1943"/><column_width id="4" width="0"/><expanded_item id="0" parent="1"/><expanded_item id="1" parent="1"/><expanded_item id="2" parent="1"/><expanded_item id="3" parent="1"/></tab_structure><tab_browse><current_table name="4,12:maininstituicoes"/><default_encoding codec=""/><browse_table_settings><table schema="main" name="LOGS_ADMS" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_"><sort/><column_widths><column index="1" value="55"/><column index="2" value="104"/><column index="3" value="106"/><column index="4" value="112"/><column index="5" value="69"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table><table schema="main" name="instituicoes" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_"><sort/><column_widths><column index="1" value="103"/><column index="2" value="300"/><column index="3" value="261"/><column index="4" value="149"/><column index="5" value="146"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table><table schema="main" name="servicos" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_"><sort/><column_widths><column index="1" value="83"/><column index="2" value="123"/><column index="3" value="159"/><column index="4" value="300"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table><table schema="main" name="solicitacoes" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_"><sort/><column_widths><column index="1" value="104"/><column index="2" value="103"/><column index="3" value="104"/><column index="4" value="155"/><column index="5" value="154"/><column index="6" value="135"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table><table schema="main" name="usuarios" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_"><sort/><column_widths><column index="1" value="84"/><column index="2" value="135"/><column index="3" value="97"/><column index="4" value="185"/><column index="5" value="189"/><column index="6" value="183"/><column index="7" value="112"/><column index="8" value="127"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table></browse_table_settings></tab_browse><tab_sql><sql name="CREATE TABLE">-- Tabela usuarios
-CREATE TABLE usuarios (
-    id_usuario INTEGER PRIMARY KEY,
-    categoria_usuario TEXT(15),
-    cpf_usuario TEXT(14),
-    data_nascimento_usuario TEXT(10),
-    email_usuario TEXT(150),
-    nome_usuario TEXT(100),
-    senha_usuario TEXT(20),
-    telefone_usuario TEXT(14)
-);
-
--- Tabela servicos
-CREATE TABLE servicos (
-    id_servico INTEGER PRIMARY KEY,
-	fk_id_instituicao INTEGER,
-    nome_servico TEXT(100),
-    tipo_servico TEXT(100),
-    FOREIGN KEY (fk_id_instituicao) REFERENCES instituicoes(id_instituicao)
-);
-
--- Tabela solicitacoes
-CREATE TABLE solicitacoes (
-    id_solicitacao INTEGER PRIMARY KEY,
-	fk_id_servico INTEGER,
-    fk_id_usuario INTEGER,
-    descricao_solicitacao TEXT(255),
-    endereco_solicitacao TEXT(255),
-    status_solicitacao TEXT(15),
-    FOREIGN KEY (fk_id_servico) REFERENCES servicos(id_servico),
-    FOREIGN KEY (fk_id_usuario) REFERENCES usuarios(id_usuario)
-);
-
--- Tabela instituicoes
-CREATE TABLE instituicoes (
-    id_instituicao INTEGER PRIMARY KEY,
-	descricao_instituicao TEXT(255),
-	email_instituicao TEXT(150),
-    nome_instituicao TEXT(150),
-	telefone_instituicao TEXT(14)
-);
-
--- Tabela LOGS_ADMS
-CREATE TABLE LOGS_ADMS (
-    id_log INTEGER PRIMARY KEY,
-	fk_id_usuario INTEGER,
-    descricao_log TEXT(155),
-	timestamp_log TEXT(18),
-    tipo_log TEXT(10),
-    FOREIGN KEY (fk_id_usuario) REFERENCES usuarios(id_usuario)
-);</sql><sql name="INSERTS">-- Inserções na tabela usuarios
-INSERT INTO usuarios (categoria_usuario, cpf_usuario, data_nascimento_usuario, email_usuario, nome_usuario, senha_usuario, telefone_usuario) VALUES 
-('Cidadão', '123.456.789-01', '08/01/1994', 'pedro.silva@gmail.com', 'PEDRO DA SILVA', 'senha1padrao', '(65)96543-2101'),
-('Cidadão', '234.567.890-12', '15/04/1987', 'jose.braga@hotmail.com', 'JOSÉ MARQUES BRAGA', 'senha1padrao', '(65)95432-1012'),
-('Cidadão', '345.678.901-23', '30/12/1995', 'maria.ferreira1968@yahoo.com', 'MARIA APARECIDA FERREIRA', 'senha1padrao', '(65)94321-0923'),
-('Administrador', '456.789.012-34', '25/05/1980', 'patricia.mendess@gmail.com', 'PATRYCIA MENDES COUTINHO', 'senha2padrao', '(65)93210-9834'),
-('Administrador', '567.890.123-45', '20/10/1975', 'fabio.marchetti@outlook.com', 'FABIO MARCHETTI SANTOS', 'senha2padrao', '(65)92109-8745'),
-('Administrador', '678.901.234-56', '19/10/1985', 'daniel.machado@yahoo.com', 'DANIEL ALCANTRA MACHADO', 'senha2padrao', '(65)91098-7656'),
-('Cidadão', '789.012.345-67', '25/02/1999', 'sarah.correa@gmail.com', 'SARAH CORREA', 'senha1padrao', '(65)90987-6567'),
-('Cidadão', '890.123.456-78', '27/05/1998', 'paulo.silva33@hotmail.com', 'PAULO MAGNO SILVA', 'senha1padrao', '(65)99876-5478'),
-('Cidadão', '901.234.567-89', '11/05/1997', 'carlos.chaparro@yahoo.com', 'CARLOS ROBERTO CHAPARRO', 'senha1padrao', '(65)98765-4389'),
-('Administrador', '123.456.789-01', '18/07/1963', 'rogerio.eminem@gmail.com', 'ROGÉRIO EMINEM CUNHA', 'senha2padrao', '(65)96543-2610');
-
--- Inserções na tabela instituicoes
+<?xml version="1.0" encoding="UTF-8"?><sqlb_project><db path="C:/Users/Rafaela Pastrelolo/OneDrive/Documentos/GitHub/SUI/DB_SUI.db" readonly="0" foreign_keys="1" case_sensitive_like="0" temp_store="0" wal_autocheckpoint="1000" synchronous="2"/><attached/><window><main_tabs open="structure browser pragmas query" current="1"/></window><tab_structure><column_width id="0" width="300"/><column_width id="1" width="0"/><column_width id="2" width="100"/><column_width id="3" width="1943"/><column_width id="4" width="0"/><expanded_item id="0" parent="1"/><expanded_item id="1" parent="1"/><expanded_item id="2" parent="1"/><expanded_item id="3" parent="1"/></tab_structure><tab_browse><current_table name="4,12:maininstituicoes"/><default_encoding codec=""/><browse_table_settings><table schema="main" name="LOGS_ADMS" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_"><sort/><column_widths><column index="1" value="55"/><column index="2" value="104"/><column index="3" value="106"/><column index="4" value="112"/><column index="5" value="69"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table><table schema="main" name="instituicoes" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_"><sort/><column_widths><column index="1" value="82"/><column index="2" value="300"/><column index="3" value="261"/><column index="4" value="198"/><column index="5" value="146"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table><table schema="main" name="servicos" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_"><sort/><column_widths><column index="1" value="83"/><column index="2" value="123"/><column index="3" value="107"/><column index="4" value="97"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table><table schema="main" name="solicitacoes" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_"><sort/><column_widths><column index="1" value="104"/><column index="2" value="103"/><column index="3" value="104"/><column index="4" value="300"/><column index="5" value="169"/><column index="6" value="135"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table></browse_table_settings></tab_browse><tab_sql><sql name="SQL 1">DELETE TABLE instituicoes</sql><sql name="SQL 4">-- Inserções na tabela instituicoes
 INSERT INTO instituicoes (descricao_instituicao, email_instituicao, nome_instituicao, telefone_instituicao) VALUES 
-('Geração, transmissão, distribuição e comercialização de energia', 'ouvidoria-mg@energisa.com.br', 'Energisa', '0800 646 4196'),
-('Captação, tratamento e distribuição de água e de coleta, afastamento e tratamento de esgoto', 'Não possui email', 'Águas Cuiabá', '(65)99276-6008'),
-('Poder executivo do município de Cuiabá', 'falecomaouvidoria@amaes.cuiaba.mt.gov.br', 'Prefeitura de Cuiabá', '(65)3645-6263'),
-('Secretaria Nacional de Mobilidade Urbana de Cuiabá', 'engenharia.semob@cuiaba.mt.gov.br', 'SEMOB', '(65)2136-2056'),
-('Segurança pública e policiamento', 'contatoseguranca@cuiaba.gov.br', 'Secretaria de Segurança', '(65)5555-1234'),
-('Coleta e reciclagem de resíduos sólidos', 'sustentabilidade@cuiabarecicla.com', 'Cuiabá Recicla', '(65)8765-4321');
+('GERAÇÃO, TRANSMISSÃO, DISTRIBUIÇÃO E COMERCIALIZAÇÃO DE ENERGIA', 'ouvidoria-mg@energisa.com.br', 'ENERGISA', '0800 646 4196'),
+('CAPTAÇÃO, TRATAMENTO E DISTRIBUIÇÃO DE ÁGUA E DE COLETA, AFASTAMENTO E TRATAMENTO DE ESGOTO', 'Não possui email', 'ÁGUAS CUIABÁ', '(65)99276-6008'),
+('PODER EXECUTIVO DO MUNICÍPIO DE CUIABÁ', 'falecomaouvidoria@amaes.cuiaba.mt.gov.br', 'PREFEITURA DE CUIABÁ', '(65)3645-6263'),
+('SECRETARIA NACIONAL DE MOBILIDADE URBANA DE CUIABÁ', 'engenharia.semob@cuiaba.mt.gov.br', 'SEMOB', '(65)2136-2056'),
+('SEGURANÇA PÚBLICA E POLICIAMENTO', 'contatoseguranca@cuiaba.gov.br', 'SECRETARIA DE SEGURANÇA', '(65)5555-1234'),
+('COLETA E RECICLAGEM DE RESÍDUOS SÓLIDOS', 'sustentabilidade@cuiabarecicla.com', 'CUIABÁ RECICLA', '(65)8765-4321');
 
 -- Inserções na tabela servicos
 INSERT INTO servicos (fk_id_instituicao, nome_servico, tipo_servico) VALUES 
-(4, 'Buraco em via pública', 'Tapar buracos existentes'),
-(3, 'Poda de árvores', 'Podar árvores obstruindo fiação'),
-(2, 'Vazamento de água', 'Corrigir problemas nos dutos de água'),
-(2, 'Esgoto a céu aberto', 'Corrigir problemas de esgoto'),
-(6, 'Lixo acumulado', 'Lixo acumulado nas ruas'),
-(1, 'Fiação', 'Fiação arrebentada atrapalhando a rua'),
-(4, 'Semáforo com defeito', 'Reparo em semáforos com mau funcionamento'),
-(5, 'Sinalização viária apagada', 'Reposição de sinalizações viárias danificadas ou apagadas'),
-(3, 'Iluminação pública', 'Reparo em postes e lâmpadas apagadas'),
-(3, 'Calçadas danificadas', 'Reparo em calçadas com problemas estruturais'),
-(6, 'Coleta de lixo domiciliar', 'Coleta de resíduos sólidos residenciais'),
-(2, 'Inundações', 'Drenagem e prevenção de inundações em áreas críticas');
+(4, 'BURACO EM VIA PÚBLICA', 'TAPAR BURACOS EXISTENTES'),
+(3, 'PODA DE ÁRVORES', 'PODAR ÁRVORES OBSTRUINDO FIAÇÃO'),
+(2, 'VAZAMENTO DE ÁGUA', 'CORRIGIR PROBLEMAS NOS DUTOS DE ÁGUA'),
+(2, 'ESGOTO A CÉU ABERTO', 'CORRIGIR PROBLEMAS DE ESGOTO'),
+(6, 'LIXO ACUMULADO', 'LIXO ACUMULADO NAS RUAS'),
+(1, 'FIAÇÃO', 'FIAÇÃO ARREBENTADA ATRAPALHANDO A RUA'),
+(4, 'SEMÁFORO COM DEFEITO', 'REPARO EM SEMÁFOROS COM MAU FUNCIONAMENTO'),
+(5, 'SINALIZAÇÃO VIÁRIA APAGADA', 'REPOSIÇÃO DE SINALIZAÇÕES VIÁRIAS DANIFICADAS OU APAGADAS'),
+(3, 'ILUMINAÇÃO PÚBLICA', 'REPARO EM POSTES E LÂMPADAS APAGADAS'),
+(3, 'CALÇADAS DANIFICADAS', 'REPARO EM CALÇADAS COM PROBLEMAS ESTRUTURAIS'),
+(6, 'COLETA DE LIXO DOMICILIAR', 'COLETA DE RESÍDUOS SÓLIDOS RESIDENCIAIS'),
+(2, 'INUNDAÇÕES', 'DRENAGEM E PREVENÇÃO DE INUNDAÇÕES EM ÁREAS CRÍTICAS');
 
 -- Inserções na tabela solicitacoes
 INSERT INTO solicitacoes (fk_id_servico, fk_id_usuario, descricao_solicitacao, endereco_solicitacao, status_solicitacao) VALUES 
-(6, 1, 'Fiação arrebentada sobre a calçada', 'Av. Ipiranga, 173', 'Concluída'),
-(1, 2, 'Buraco atrapalhando passagem de veículos', 'Av. Getúlio Vargas, 380', 'Concluída'),
-(5, 3, 'Acúmulo de lixo sobre a calçada', 'Rua Miranda Reis', 'Em andamento'),
-(3, 7, 'Vazamento de água no meio da pista', 'Rua dos Anjos', 'Em andamento'),
-(2, 8, 'Árvore atrapalhando fiação dos postes', 'Av. Dante de Oliveira, 47', 'Em andamento'),
-(4, 2, 'Esgoto correndo a céu aberto', 'Rua Eduardo Barbosa', 'Em análise'),
-(10, 8, 'Buraco na calçada', 'Rua dos Girassóis, 123', 'Cancelada'),
-(2, 9, 'Poda de árvores necessária', 'Av. das Flores, 789', 'Em análise'),
-(5, 9, 'Acúmulo de lixo na via pública', 'Rua das Palmeiras, 456', 'Recebida'),
-(6, 1, 'Reparo na fiação elétrica', 'Av. dos Pássaros, 789', 'Recebida');
-
-</sql><current_tab id="0"/></tab_sql></sqlb_project>
+(6, 1, 'FIAÇÃO ARREBENTADA SOBRE A CALÇADA', 'AV. IPIRANGA, 173', 'CONCLUÍDA'),
+(1, 2, 'BURACO ATRAPALHANDO PASSAGEM DE VEÍCULOS', 'AV. GETÚLIO VARGAS, 380', 'CONCLUÍDA'),
+(5, 3, 'ACÚMULO DE LIXO SOBRE A CALÇADA', 'RUA MIRANDA REIS', 'EM ANDAMENTO'),
+(3, 7, 'VAZAMENTO DE ÁGUA NO MEIO DA PISTA', 'RUA DOS ANJOS', 'EM ANDAMENTO'),
+(2, 8, 'ÁRVORE ATRAPALHANDO FIAÇÃO DOS POSTES', 'AV. DANTE DE OLIVEIRA, 47', 'EM ANDAMENTO'),
+(4, 2, 'ESGOTO CORRENDO A CÉU ABERTO', 'RUA EDUARDO BARBOSA', 'EM ANÁLISE'),
+(10, 8, 'BURACO NA CALÇADA', 'RUA DOS GIRASSÓIS, 123', 'CANCELADA'),
+(2, 9, 'PODA DE ÁRVORES NECESSÁRIA', 'AV. DAS FLORES, 789', 'EM ANÁLISE'),
+(5, 9, 'ACÚMULO DE LIXO NA VIA PÚBLICA', 'RUA DAS PALMEIRAS, 456', 'RECEBIDA'),
+(6, 1, 'REPARO NA FIAÇÃO ELÉTRICA', 'AV. DOS PÁSSAROS, 789', 'RECEBIDA');
+</sql><current_tab id="1"/></tab_sql></sqlb_project>

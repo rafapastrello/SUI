@@ -76,37 +76,37 @@ INSERT INTO usuarios (categoria_usuario, cpf_usuario, data_nascimento_usuario, e
 
 -- Inserções na tabela instituicoes
 INSERT INTO instituicoes (descricao_instituicao, email_instituicao, nome_instituicao, telefone_instituicao) VALUES 
-('Geração, transmissão, distribuição e comercialização de energia', 'ouvidoria-mg@energisa.com.br', 'Energisa', '0800 646 4196'),
-('Captação, tratamento e distribuição de água e de coleta, afastamento e tratamento de esgoto', 'Não possui email', 'Águas Cuiabá', '(65)99276-6008'),
-('Poder executivo do município de Cuiabá', 'falecomaouvidoria@amaes.cuiaba.mt.gov.br', 'Prefeitura de Cuiabá', '(65)3645-6263'),
-('Secretaria Nacional de Mobilidade Urbana de Cuiabá', 'engenharia.semob@cuiaba.mt.gov.br', 'SEMOB', '(65)2136-2056'),
-('Segurança pública e policiamento', 'contatoseguranca@cuiaba.gov.br', 'Secretaria de Segurança', '(65)5555-1234'),
-('Coleta e reciclagem de resíduos sólidos', 'sustentabilidade@cuiabarecicla.com', 'Cuiabá Recicla', '(65)8765-4321');
+('GERAÇÃO, TRANSMISSÃO, DISTRIBUIÇÃO E COMERCIALIZAÇÃO DE ENERGIA', 'ouvidoria-mg@energisa.com.br', 'ENERGISA', '0800 646 4196'),
+('CAPTAÇÃO, TRATAMENTO E DISTRIBUIÇÃO DE ÁGUA E DE COLETA, AFASTAMENTO E TRATAMENTO DE ESGOTO', 'Não possui email', 'ÁGUAS CUIABÁ', '(65)99276-6008'),
+('PODER EXECUTIVO DO MUNICÍPIO DE CUIABÁ', 'falecomaouvidoria@amaes.cuiaba.mt.gov.br', 'PREFEITURA DE CUIABÁ', '(65)3645-6263'),
+('SECRETARIA NACIONAL DE MOBILIDADE URBANA DE CUIABÁ', 'engenharia.semob@cuiaba.mt.gov.br', 'SEMOB', '(65)2136-2056'),
+('SEGURANÇA PÚBLICA E POLICIAMENTO', 'contatoseguranca@cuiaba.gov.br', 'SECRETARIA DE SEGURANÇA', '(65)5555-1234'),
+('COLETA E RECICLAGEM DE RESÍDUOS SÓLIDOS', 'sustentabilidade@cuiabarecicla.com', 'CUIABÁ RECICLA', '(65)8765-4321');
 
 -- Inserções na tabela servicos
 INSERT INTO servicos (fk_id_instituicao, nome_servico, tipo_servico) VALUES 
-(4, 'Buraco em via pública', 'Tapar buracos existentes'),
-(3, 'Poda de árvores', 'Podar árvores obstruindo fiação'),
-(2, 'Vazamento de água', 'Corrigir problemas nos dutos de água'),
-(2, 'Esgoto a céu aberto', 'Corrigir problemas de esgoto'),
-(6, 'Lixo acumulado', 'Lixo acumulado nas ruas'),
-(1, 'Fiação', 'Fiação arrebentada atrapalhando a rua'),
-(4, 'Semáforo com defeito', 'Reparo em semáforos com mau funcionamento'),
-(5, 'Sinalização viária apagada', 'Reposição de sinalizações viárias danificadas ou apagadas'),
-(3, 'Iluminação pública', 'Reparo em postes e lâmpadas apagadas'),
-(3, 'Calçadas danificadas', 'Reparo em calçadas com problemas estruturais'),
-(6, 'Coleta de lixo domiciliar', 'Coleta de resíduos sólidos residenciais'),
-(2, 'Inundações', 'Drenagem e prevenção de inundações em áreas críticas');
+(4, 'BURACO EM VIA PÚBLICA', 'TAPAR BURACOS EXISTENTES'),
+(3, 'PODA DE ÁRVORES', 'PODAR ÁRVORES OBSTRUINDO FIAÇÃO'),
+(2, 'VAZAMENTO DE ÁGUA', 'CORRIGIR PROBLEMAS NOS DUTOS DE ÁGUA'),
+(2, 'ESGOTO A CÉU ABERTO', 'CORRIGIR PROBLEMAS DE ESGOTO'),
+(6, 'LIXO ACUMULADO', 'LIXO ACUMULADO NAS RUAS'),
+(1, 'FIAÇÃO', 'FIAÇÃO ARREBENTADA ATRAPALHANDO A RUA'),
+(4, 'SEMÁFORO COM DEFEITO', 'REPARO EM SEMÁFOROS COM MAU FUNCIONAMENTO'),
+(5, 'SINALIZAÇÃO VIÁRIA APAGADA', 'REPOSIÇÃO DE SINALIZAÇÕES VIÁRIAS DANIFICADAS OU APAGADAS'),
+(3, 'ILUMINAÇÃO PÚBLICA', 'REPARO EM POSTES E LÂMPADAS APAGADAS'),
+(3, 'CALÇADAS DANIFICADAS', 'REPARO EM CALÇADAS COM PROBLEMAS ESTRUTURAIS'),
+(6, 'COLETA DE LIXO DOMICILIAR', 'COLETA DE RESÍDUOS SÓLIDOS RESIDENCIAIS'),
+(2, 'INUNDAÇÕES', 'DRENAGEM E PREVENÇÃO DE INUNDAÇÕES EM ÁREAS CRÍTICAS');
 
 -- Inserções na tabela solicitacoes
 INSERT INTO solicitacoes (fk_id_servico, fk_id_usuario, descricao_solicitacao, endereco_solicitacao, status_solicitacao) VALUES 
-(6, 1, 'Fiação arrebentada sobre a calçada', 'Av. Ipiranga, 173', 'Concluída'),
-(1, 2, 'Buraco atrapalhando passagem de veículos', 'Av. Getúlio Vargas, 380', 'Concluída'),
-(5, 3, 'Acúmulo de lixo sobre a calçada', 'Rua Miranda Reis', 'Em andamento'),
-(3, 7, 'Vazamento de água no meio da pista', 'Rua dos Anjos', 'Em andamento'),
-(2, 8, 'Árvore atrapalhando fiação dos postes', 'Av. Dante de Oliveira, 47', 'Em andamento'),
-(4, 2, 'Esgoto correndo a céu aberto', 'Rua Eduardo Barbosa', 'Em análise'),
-(10, 8, 'Buraco na calçada', 'Rua dos Girassóis, 123', 'Cancelada'),
-(2, 9, 'Poda de árvores necessária', 'Av. das Flores, 789', 'Em análise'),
-(5, 9, 'Acúmulo de lixo na via pública', 'Rua das Palmeiras, 456', 'Recebida'),
-(6, 1, 'Reparo na fiação elétrica', 'Av. dos Pássaros, 789', 'Recebida');
+(6, 1, 'FIAÇÃO ARREBENTADA SOBRE A CALÇADA', 'AV. IPIRANGA, 173', 'CONCLUÍDA'),
+(1, 2, 'BURACO ATRAPALHANDO PASSAGEM DE VEÍCULOS', 'AV. GETÚLIO VARGAS, 380', 'CONCLUÍDA'),
+(5, 3, 'ACÚMULO DE LIXO SOBRE A CALÇADA', 'RUA MIRANDA REIS', 'EM ANDAMENTO'),
+(3, 7, 'VAZAMENTO DE ÁGUA NO MEIO DA PISTA', 'RUA DOS ANJOS', 'EM ANDAMENTO'),
+(2, 8, 'ÁRVORE ATRAPALHANDO FIAÇÃO DOS POSTES', 'AV. DANTE DE OLIVEIRA, 47', 'EM ANDAMENTO'),
+(4, 2, 'ESGOTO CORRENDO A CÉU ABERTO', 'RUA EDUARDO BARBOSA', 'EM ANÁLISE'),
+(10, 8, 'BURACO NA CALÇADA', 'RUA DOS GIRASSÓIS, 123', 'CANCELADA'),
+(2, 9, 'PODA DE ÁRVORES NECESSÁRIA', 'AV. DAS FLORES, 789', 'EM ANÁLISE'),
+(5, 9, 'ACÚMULO DE LIXO NA VIA PÚBLICA', 'RUA DAS PALMEIRAS, 456', 'RECEBIDA'),
+(6, 1, 'REPARO NA FIAÇÃO ELÉTRICA', 'AV. DOS PÁSSAROS, 789', 'RECEBIDA');

@@ -10,14 +10,13 @@ cursor = conexao_DB.cursor()
 def menu_administrador():
     while True:
         opcao = input("""
-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-|__________ LOGIN DO ADMINISTRADOR ___________|
-|-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-|
-|                                             |
-|   [0] ............................ VOLTAR   |
-|   [1] .......... Administrador cadastrado   |
-|   [2] ........ Administrador sem cadastro   |
-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+|________ LOGIN DO ADMINISTRADOR ________|
+|-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=|
+|                                        |
+|   [0] ....................... VOLTAR   |
+|   [1] .................. Fazer login   |
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 
 >>> Escolha a opção: """)
         
@@ -25,15 +24,12 @@ def menu_administrador():
             print("\n - VOLTANDO - \n")
             break
         elif opcao == "1":
-            administrador_cadastrado()
-        elif opcao == "2":
-            menu_cadastro_administrador()
+            login_administrador()
         else:
             print("\n - OPÇÃO INVÁLIDA - \n")
 
-def administrador_cadastrado():
+def login_administrador():
     email_administrador = input(" Digite seu email: ")
-
     while email_administrador == "":
         print("\n - INFORME UM EMAIL - \n")
         email_administrador = input(" Digite seu email: ")
@@ -72,67 +68,6 @@ def administrador_cadastrado():
         =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
         
         """)
-
-def menu_cadastro_administrador():
-    while True:
-        opcao = input("""
-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-|____ DESEJA REALIZAR SEU CADASTRO? ____|
-|-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-|
-|   [1] ......................... Sim   |
-|   [2] ......................... Não   |
-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-
->>> Escolha a opção: """)
-        if opcao == "1":
-            cadastrar_administrador()
-        elif opcao == "2":
-            menu_administrador()
-        else:
-            print(" - OPÇÃO INVÁLIDA - ")
-
-def cadastrar_administrador():
-    while True:
-        nome_administrador = input(" Digite seu nome: ").upper()
-        while nome_administrador == "":
-            print("\n - INFORME UM NOME - \n")
-            nome_administrador = input(" Digite seu nome: ").upper()
-
-        data_nascimento_administrador = input(" Digite sua data de nascimento no formato dd/mm/aaaa: ")
-        while data_nascimento_administrador == "":
-            print("\n - INFORME UMA DATA - \n")
-            data_nascimento_administrador = input(" Digite sua data de nascimento no formato dd/mm/aaaa: ")
-
-        cpf_administrador = input(" Digite seu CPF no formato 000.000.000-00: ")
-        while cpf_administrador == "":
-            print("\n - INFORME UM CPF - \n")
-            cpf_administrador = input(" Digite seu CPF no formato 000.000.000-00: ")
-
-        telefone_administrador = input(" Digite seu telefone no formato (00)00000-0000: ")
-        while telefone_administrador == "":
-            print("\n - INFORME UM TELEFONE - \n")
-            telefone_administrador = input(" Digite seu telefone no formato (00)00000-0000: ")
-
-        email_administrador = input(" Digite seu email: ")
-        while email_administrador == "":
-            print("\n - INFORME UM EMAIL - \n")
-            email_administrador = input(" Digite seu email: ")
-
-        senha_administrador = getpass_with_mask(" Digite sua senha: ")
-        while senha_administrador == "":
-            print("\n - INFORME UMA SENHA - \n")
-            senha_administrador = getpass_with_mask(" Digite sua senha: ")
-
-        confirma_senha_administrador = getpass_with_mask(" Confirme sua senha: ")
-        while senha_administrador != confirma_senha_administrador:
-            print("\n - AS SENHAS FORNECIDAS NÃO CORRESPONDEM - \n")
-            confirma_senha_administrador = getpass_with_mask(" Confirme sua senha: ")
-
-        cursor.execute(""" INSERT INTO usuarios (categoria_usuario, cpf_usuario, data_nascimento_usuario, email_usuario, nome_usuario, senha_usuario, telefone_usuario) VALUES ('Administrador',?,?,?,?,?,?) """, (cpf_administrador, data_nascimento_administrador, email_administrador, nome_administrador, senha_administrador, telefone_administrador,))
-        conexao_DB.commit()
-
-        print(f"\n - ADMINISTRADOR > {nome_administrador} < CADASTRADO COM SUCESSO - \n")
-        menu_administrador()
 
 if __name__ == "__main__":
     menu_administrador()
