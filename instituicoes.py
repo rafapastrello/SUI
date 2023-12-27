@@ -45,8 +45,7 @@ def menu_instituicoes():
         else:
             print("\n - OPÇÃO INVÁLIDA - \n")
 
-def obtem_instituicoes():
-    # Obtem as instituicoes em lista 
+def obtem_instituicoes(): # Obtem as instituicoes em lista
     instituicoes = []
 
     # Obtem os valores da tabela instituicoes
@@ -125,12 +124,12 @@ def edita_instituicao():
         print("\n - EDITAR INSTITUIÇÃO - \n")
         id_instituicao = input(" Digite o ID da instituição que deseja editar: ")
         while id_instituicao == "":
-            print("\n - INFORME UMA INSTITUIÇÃO - \n")
+            print("\n - INFORME UM ID - \n")
             id_instituicao = input(" Digite o ID da instituição que deseja editar: ")
         
         # Verifica se o ID informado é existente no DB
         cursor.execute(" SELECT id_instituicao FROM instituicoes WHERE id_instituicao = ? ", (id_instituicao,))
-        verifica_instituicao = cursor.fetchone()
+        verifica_instituicao = cursor.fetchall()
         
         if verifica_instituicao == None:
             print("\n - INSTITUIÇÃO INEXISTENTE - \n")
@@ -262,7 +261,7 @@ def busca_instituicao():
                 print("\n - INFORME UM VALOR - \n")
                 busca_id = input(" Busca pelo ID da Instituição: ").upper()
 
-            cursor.execute(f" SELECT * FROM instituicoes WHERE id_instituicao = ? ", (busca_id))
+            cursor.execute(" SELECT * FROM instituicoes WHERE id_instituicao = ? ", (busca_id,))
             verifica_id = cursor.fetchall()
 
             if not verifica_id: # Verifica se a variável 'verifica_id' está vazia
@@ -370,7 +369,7 @@ def exclui_instituicao():
                 id_instituicao = input(" Digite o ID da Instituição que deseja excluir: ")
 
             cursor.execute(" SELECT id_instituicao FROM instituicoes WHERE id_instituicao = ? ", (id_instituicao,))
-            verifica_id = cursor.fetchone()
+            verifica_id = cursor.fetchall()
 
             if verifica_id == None:
                 print(f"\n - INSTITUIÇÃO > {id_instituicao} < INEXISTENTE - \n")
