@@ -278,7 +278,7 @@ def busca_instituicao():
                 print("\n - INFORME UM VALOR - \n")
                 busca_descricao = input(" Buscar pela descrição da Instituição: ").upper()
 
-            cursor.execute(f" SELECT * FROM instituicoes WHERE descricao_instituicao LIKE '%{busca_descricao}%' ")
+            cursor.execute(" SELECT * FROM instituicoes WHERE descricao_instituicao LIKE ? ", ('%' + busca_descricao + '%',))
             verifica_descricao = cursor.fetchall()
 
             if not verifica_descricao: # Verifica se a variável 'verifica_descricao' está vazia
@@ -296,7 +296,7 @@ def busca_instituicao():
                 print("\n - INFORME UM VALOR - \n")
                 busca_email = input(" Buscar pelo email da Instituição: ")
 
-            cursor.execute(f" SELECT * FROM instituicoes WHERE email_instituicao LIKE '%{busca_email}%' ")
+            cursor.execute(f" SELECT * FROM instituicoes WHERE email_instituicao LIKE ? ", ('%' + busca_email + '%',))
             verifica_email = cursor.fetchall()
 
             if not verifica_email: # Verifica se a variável 'verifica_email' está vazia
@@ -314,7 +314,7 @@ def busca_instituicao():
                 print("\n - INFORME UM VALOR - \n")
                 busca_nome = input(" Buscar pelo nome da Instituição: ").upper()
 
-            cursor.execute(f" SELECT * FROM instituicoes WHERE nome_instituicao LIKE '%{busca_nome}%' ")
+            cursor.execute(f" SELECT * FROM instituicoes WHERE nome_instituicao LIKE ? ", ('%' + busca_nome + '%',))
             verifica_nome = cursor.fetchall()
 
             if not verifica_nome: # Verifica se a variável 'verifica_nome' está vazia
@@ -332,7 +332,7 @@ def busca_instituicao():
                 print("\n - INFORME UM VALOR - \n")
                 busca_telefone = input(" Buscar pelo telefone da Instituição: ")
             
-            cursor.execute(f" SELECT * FROM instituicoes WHERE telefone_instituicao LIKE '%{busca_telefone}%' ")
+            cursor.execute(f" SELECT * FROM instituicoes WHERE telefone_instituicao LIKE ? ", ('%' + busca_telefone + '%',))
             verifica_telefone = cursor.fetchall()
 
             if not verifica_telefone: # Verifica se a variável 'verifica_telefone' está vazia
