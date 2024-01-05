@@ -76,7 +76,6 @@ def visualiza_servico_selecionado(id_servico):
         servicos.append(servico) # Agrupa as listas em uma única lista
 
     # Exibe a tabela estilizada
-    print("\n - SERVIÇO SELECIONADO -")
     print(f"{'=-'*76}")
     print(f"| {'ID':<3} || {'ID INSTITUIÇÃO':<14} | {'NOME':<40} | {'TIPO':<81} |")
     print(f"|{'='*5}||{'='*16}|{'='*42}|{'='*83}|")
@@ -102,6 +101,7 @@ def edita_servico():
             print("\n - SERVIÇO INEXISTENTE - \n")
             menu_servicos()
         else:
+            print("\n - SERVIÇO SELECIONADO -")
             visualiza_servico_selecionado(id_servico)
             opcao = input(f"""
     =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
@@ -127,7 +127,7 @@ def edita_servico():
                     print("\n - INFORME UM ID INSTITUIÇÃO - \n")
                     novo_id_instuicao = input(f" Digite o novo ID instituição do serviço {id_servico}: ").upper()
 
-                cursor.execute(" SELECT * FROM servicos WHERE fk_id_instituicao = ? ", novo_id_instuicao)
+                cursor.execute(" SELECT * FROM instituicoes WHERE id_instituicao = ? ", novo_id_instuicao)
                 verifica_id_instituicao = cursor.fetchall()
 
                 if verifica_id_instituicao == None:
@@ -136,6 +136,7 @@ def edita_servico():
                     cursor.execute(" UPDATE servicos SET fk_id_instituicao = ? WHERE id_servico = ? ", (novo_id_instuicao,id_servico,))
                     conexao_DB.commit()
                     print("\n - ID INSTITUIÇÃO EDITADO - \n")
+                    visualiza_servico_selecionado(id_servico)
 
             elif opcao == "2":
                 novo_nome_servico = input(f" Digite o novo nome do serviço {id_servico}: ").upper()
@@ -145,15 +146,17 @@ def edita_servico():
                 cursor.execute(" UPDATE servicos SET nome_servico = ? WHERE id_servico = ? ", (novo_nome_servico,id_servico,))
                 conexao_DB.commit()
                 print("\n - NOME EDITADO - \n")
+                visualiza_servico_selecionado(id_servico)
 
             elif opcao == "3":
-                novo_tipo_servico = input(f" Digite o novo tipo do serviço {id_servico}: ")
+                novo_tipo_servico = input(f" Digite o novo tipo do serviço {id_servico}: ").upper()
                 while novo_tipo_servico == '':
                     print("\n - INFORME UM TIPO - \n")
-                    novo_tipo_servico = input(f" Digite o novo tipo do serviço {id_servico}: ")
+                    novo_tipo_servico = input(f" Digite o novo tipo do serviço {id_servico}: ").upper()
                 cursor.execute(" UPDATE servicos SET tipo_servico = ? WHERE id_servico = ? ", (novo_tipo_servico,id_servico,))
                 conexao_DB.commit()
                 print("\n - TIPO EDITADO - \n")
+                visualiza_servico_selecionado(id_servico)
 
             else:
                 print("\n - OPÇÃO INVÁLIDA - \n")
@@ -175,35 +178,50 @@ def insere_servico():
         if opcao  == "0":
             print("\n - VOLTANDO - \n")
             break
+
         elif opcao == "1":
             nome_servico = input(" Digite o nome do serviço: ").upper()
             while nome_servico == '':
                 print("\n - INFORME UM NOME - \n")
-                nome_servico = input(" Digite o nome da serviço: ").upper()
+                nome_servico = input(" Digite o nome do serviço: ").upper()
 
-            tipo_servico = input(" Digite a descrição da serviço: ").upper()
+            instituicoes.instituicoes_disponiveis()
+            id_instituicao = input(" Digite o ID instituição do serviço: ")
+            while id_instituicao == '':
+                print("\n - INFORME UM ID INSTITUIÇÃO - \n")
+                id_instituicao = input(" Digite o ID instituição do serviço: ")
+
+            # Verifica se o ID instituição informado é existente na tabela de intituições
+            cursor.execute(" SELECT * FROM instituicoes WHERE id_instituicao = ? ", novo_id_instuicao)
+            verifica_id_instituicao = cursor.fetchall()
+
+            if verifica_id_instituicao == None:
+                print(" - ID INSTITUIÇÃO INEXISTENTE - ")
+                break
+                
+            tipo_servico = input(" Digite o tipo do serviço: ").upper()
             while tipo_servico == '':
                 print("\n - INFORME UMA DESCRIÇÃO - \n")
-                tipo_servico = input(" Digite a descrição da serviço: ").upper()
+                tipo_servico = input(" Digite o tipo do serviço: ").upper()
 
-            cursor.execute(" INSERT INTO servicos (tipo_servico, email_servico, nome_servico, telefone_servico) VALUES (?,?) ", (tipo_servico, email_servico, nome_servico, telefone_servico,))
+            cursor.execute(" INSERT INTO servicos (fk_id_instituicao, nome_servico, tipo_servico) VALUES (?,?,?) ", (id_instituicao, nome_servico, tipo_servico,))
             conexao_DB.commit()
 
-            print("\n - serviço ADICIONADA - \n")
+            print("\n - SERVIÇO ADICIONADO - \n")
+            menu_servicos()
 
 def busca_servico():
     while True:
         opcao = input(f"""
 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
-|___________ BUSCAR serviço ___________|
+|_____________ BUSCAR SERVIÇO _____________|
 |-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=|
 |                                          |
 |   [0] ......................... VOLTAR   |
 |   [1] ................. Buscar pelo ID   |
-|   [2] .......... Buscar pela descrição   |
-|   [3] .............. Buscar pelo email   |
-|   [4] ............... Buscar pelo nome   |
-|   [5] ........... Buscar pelo telefone   |
+|   [2] ..... Buscar pelo ID instituição   |
+|   [3] ............... Buscar pelo nome   |
+|   [4] ............... Buscar pelo tipo   |
 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 
 >>> Escolha a opção: """)
@@ -212,12 +230,12 @@ def busca_servico():
             break
 
         elif opcao == "1":
-            busca_id = input(" Busca pelo ID da serviço: ").upper()
+            busca_id = input(" Busca pelo ID do serviço: ")
             while busca_id == '':
                 print("\n - INFORME UM VALOR - \n")
-                busca_id = input(" Busca pelo ID da serviço: ").upper()
+                busca_id = input(" Busca pelo ID do serviço: ")
 
-            cursor.execute(f" SELECT * FROM servicos WHERE id_servico = ? ", (busca_id))
+            cursor.execute(f" SELECT * FROM servicos WHERE id_servico = ? ", (busca_id,))
             verifica_id = cursor.fetchall()
 
             if not verifica_id: # Verifica se a variável 'verifica_id' está vazia
@@ -225,50 +243,32 @@ def busca_servico():
                 busca_servico()
             else:
                 print("\n - RESULTADO(S): - \n")
-                print(" >>> Considere a sequência: ID, Descrição, Email, Nome e Telefone separados por vírgula: \n")
-                print(verifica_id)
+                print(" >>> Considere a sequência: ID, ID instituição, Nome e Tipo separados por vírgula: \n")
+                print(verifica_id) # Exibe a variável 'verifica_id' pois existe apenas um ID instituição
 
         elif opcao == "2":
-            busca_descricao = input(" Buscar pela descrição da serviço: ").upper()
-            while busca_descricao == '':
+            busca_id_instituicao = input(" Buscar pelo ID da instituição: ")
+            while busca_id_instituicao == '':
                 print("\n - INFORME UM VALOR - \n")
-                busca_descricao = input(" Buscar pela descrição da serviço: ").upper()
+                busca_id_instituicao = input(" Buscar pelo ID da instituição: ")
 
-            cursor.execute(f" SELECT * FROM servicos WHERE descricao_servico LIKE '%{busca_descricao}%' ")
-            verifica_descricao = cursor.fetchall()
+            cursor.execute(f" SELECT * FROM servicos WHERE fk_id_instituicao = ? ", (busca_id,))
+            verifica_id_instituicao = cursor.fetchall()
 
-            if not verifica_descricao: # Verifica se a variável 'verifica_descricao' está vazia
-                print("\n - A BUSCA PELA DESCRIÇÃO INFORMADA NÃO FOI ENCONTRADA - \n")
+            if not verifica_id_instituicao: # Verifica se a variável 'verifica_id_instituicao' está vazia
+                print("\n - A BUSCA PELO ID INSTITUIÇÃO INFORMADO NÃO FOI ENCONTRADA - \n")
                 busca_servico()
             else:
                 print("\n - RESULTADO(S): - \n")
-                print(" >>> Considere a sequência: ID, Descrição, Email, Nome e Telefone separados por vírgula: \n")
-                for servico in verifica_descricao:
-                    print(servico)
+                print(" >>> Considere a sequência: ID, ID instituição, Nome e Tipo separados por vírgula: \n")
+                for servico in verifica_id_instituicao:
+                    print(servico) # Exibe a variável 'servico' pois pode existir mais de um resultado, ou seja, exibe todos os resultados
 
         elif opcao == "3":
-            busca_email = input(" Buscar pelo email da serviço: ")
-            while busca_email == '':
-                print("\n - INFORME UM VALOR - \n")
-                busca_email = input(" Buscar pelo email da serviço: ")
-
-            cursor.execute(f" SELECT * FROM servicos WHERE email_servico LIKE '%{busca_email}%' ")
-            verifica_email = cursor.fetchall()
-
-            if not verifica_email: # Verifica se a variável 'verifica_email' está vazia
-                print("\n - A BUSCA PELO EMAIL INFORMADO NÃO FOI ENCONTRADA - \n")
-                busca_servico()
-            else:
-                print("\n - RESULTADO(S): - \n")
-                print(" >>> Considere a sequência: ID, Descrição, Email, Nome e Telefone separados por vírgula: \n")
-                for servico in verifica_email:
-                    print(servico)
-
-        elif opcao == "4":
-            busca_nome = input(" Buscar pelo nome da serviço: ").upper()
+            busca_nome = input(" Buscar pelo nome do serviço: ")
             while busca_nome == '':
                 print("\n - INFORME UM VALOR - \n")
-                busca_nome = input(" Buscar pelo nome da serviço: ").upper()
+                busca_nome = input(" Buscar pelo nome do serviço: ")
 
             cursor.execute(f" SELECT * FROM servicos WHERE nome_servico LIKE '%{busca_nome}%' ")
             verifica_nome = cursor.fetchall()
@@ -278,27 +278,27 @@ def busca_servico():
                 busca_servico()
             else:
                 print("\n - RESULTADO(S): - \n")
-                print(" >>> Considere a sequência: ID, Descrição, Email, Nome e Telefone separados por vírgula: \n")
+                print(" >>> Considere a sequência: ID, ID instituição, Nome e Tipo separados por vírgula: \n")
                 for servico in verifica_nome:
-                    print(servico)
+                    print(servico) # Exibe a variável 'servico' pois pode existir mais de um resultado, ou seja, exibe todos os resultados
 
-        elif opcao == "5":
-            busca_telefone = input(" Buscar pelo telefone da serviço: ")
-            while busca_telefone == '':
+        elif opcao == "4":
+            busca_tipo = input(" Buscar pelo tipo do serviço: ").upper()
+            while busca_tipo == '':
                 print("\n - INFORME UM VALOR - \n")
-                busca_telefone = input(" Buscar pelo telefone da serviço: ")
-            
-            cursor.execute(f" SELECT * FROM servicos WHERE telefone_servico LIKE '%{busca_telefone}%' ")
-            verifica_telefone = cursor.fetchall()
+                busca_tipo = input(" Buscar pelo tipo do serviço: ").upper()
 
-            if not verifica_telefone: # Verifica se a variável 'verifica_telefone' está vazia
-                print("\n - A BUSCA PELO NOME INFORMADO NÃO FOI ENCONTRADA - \n")
+            cursor.execute(f" SELECT * FROM servicos WHERE tipo_servico LIKE '%{busca_tipo}%' ")
+            verifica_tipo = cursor.fetchall()
+
+            if not verifica_tipo: # Verifica se a variável 'verifica_tipo' está vazia
+                print("\n - A BUSCA PELO TIPO INFORMADO NÃO FOI ENCONTRADA - \n")
                 busca_servico()
             else:
                 print("\n - RESULTADO(S): - \n")
                 print(" >>> Considere a sequência: ID, Descrição, Email, Nome e Telefone separados por vírgula: \n")
-                for servico in verifica_telefone:
-                    print(servico)
+                for servico in verifica_tipo:
+                    print(servico) # Exibe a variável 'servico' pois pode existir mais de um resultado, ou seja, exibe todos os resultados
         
         else:
             print("\n - OPÇÃO INVÁLIDA - \n")
@@ -306,13 +306,13 @@ def busca_servico():
 def exclui_servico():
     while True:
         opcao = input(f"""
-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
-|____________ EXCLUIR serviço _____________|
-|-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=|
-|                                              |
-|   [0] ............................. VOLTAR   |
-|   [1] .......... Excluir serviço por ID  |
-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+|____________ EXCLUIR SERVIÇO ____________|
+|-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-|
+|                                         |
+|   [0] ........................ VOLTAR   |
+|   [1] ......... Excluir serviço por ID  |
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
 >>> Escolha a opção: """)
         if opcao  == "0":

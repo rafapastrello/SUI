@@ -256,10 +256,10 @@ def busca_instituicao():
             break
 
         elif opcao == "1":
-            busca_id = input(" Busca pelo ID da Instituição: ").upper()
+            busca_id = input(" Busca pelo ID da Instituição: ")
             while busca_id == '':
                 print("\n - INFORME UM VALOR - \n")
-                busca_id = input(" Busca pelo ID da Instituição: ").upper()
+                busca_id = input(" Busca pelo ID da Instituição: ")
 
             cursor.execute(" SELECT * FROM instituicoes WHERE id_instituicao = ? ", (busca_id,))
             verifica_id = cursor.fetchall()
@@ -270,7 +270,7 @@ def busca_instituicao():
             else:
                 print("\n - RESULTADO(S): - \n")
                 print(" >>> Considere a sequência: ID, Descrição, Email, Nome e Telefone separados por vírgula: \n")
-                print(verifica_id)
+                print(verifica_id) # Exibe a variável 'verifica_id' pois existe apenas um ID instituição
 
         elif opcao == "2":
             busca_descricao = input(" Buscar pela descrição da Instituição: ").upper()
@@ -288,7 +288,7 @@ def busca_instituicao():
                 print("\n - RESULTADO(S): - \n")
                 print(" >>> Considere a sequência: ID, Descrição, Email, Nome e Telefone separados por vírgula: \n")
                 for instituicao in verifica_descricao:
-                    print(instituicao)
+                    print(instituicao) # Exibe a variável 'instituicao' pois pode existir mais de um resultado, ou seja, exibe todos os resultados
 
         elif opcao == "3":
             busca_email = input(" Buscar pelo email da Instituição: ")
@@ -306,7 +306,7 @@ def busca_instituicao():
                 print("\n - RESULTADO(S): - \n")
                 print(" >>> Considere a sequência: ID, Descrição, Email, Nome e Telefone separados por vírgula: \n")
                 for instituicao in verifica_email:
-                    print(instituicao)
+                    print(instituicao) # Exibe a variável 'instituicao' pois pode existir mais de um resultado, ou seja, exibe todos os resultados
 
         elif opcao == "4":
             busca_nome = input(" Buscar pelo nome da Instituição: ").upper()
@@ -324,7 +324,7 @@ def busca_instituicao():
                 print("\n - RESULTADO(S): - \n")
                 print(" >>> Considere a sequência: ID, Descrição, Email, Nome e Telefone separados por vírgula: \n")
                 for instituicao in verifica_nome:
-                    print(instituicao)
+                    print(instituicao) # Exibe a variável 'instituicao' pois pode existir mais de um resultado, ou seja, exibe todos os resultados
 
         elif opcao == "5":
             busca_telefone = input(" Buscar pelo telefone da Instituição: ")
@@ -342,7 +342,7 @@ def busca_instituicao():
                 print("\n - RESULTADO(S): - \n")
                 print(" >>> Considere a sequência: ID, Descrição, Email, Nome e Telefone separados por vírgula: \n")
                 for instituicao in verifica_telefone:
-                    print(instituicao)
+                    print(instituicao) # Exibe a variável 'instituicao' pois pode existir mais de um resultado, ou seja, exibe todos os resultados
         
         else:
             print("\n - OPÇÃO INVÁLIDA - \n")
