@@ -55,13 +55,13 @@ def obtem_servicos(): # Obtem os servicos em lista
 
 def servicos_disponiveis(): # Visualiza os serviços disponíveis
     lista_servicos = obtem_servicos()
-    
+
     # Exibe a tabela estilizada
     print("\n - SERVIÇOS DISPONÍVEIS -")
     print(f"{'=-'*75}")
     print(f"| {'ID':<2} || {'ID INSTITUIÇÃO':<14} | {'NOME':<40} | {'TIPO':<80} |")
     print(f"|{'='*4}||{'='*16}|{'='*42}|{'='*82}|")
-    
+
     for servico in lista_servicos:
         print(f"| {servico[0]:<2} || {servico[1]:<14} | {servico[2]:<40} | {servico[3]:<80} |")
         print(f"|{'-'*4}||{'-'*16}|{'-'*42}|{'-'*82}|")
@@ -79,7 +79,7 @@ def visualiza_servico_selecionado(id_servico):
     print(f"{'=-'*76}")
     print(f"| {'ID':<3} || {'ID INSTITUIÇÃO':<14} | {'NOME':<40} | {'TIPO':<81} |")
     print(f"|{'='*5}||{'='*16}|{'='*42}|{'='*83}|")
-    
+
     for servico in servicos:
         print(f"| {servico[0]:<3} || {servico[1]:<14} | {servico[2]:<40} | {servico[3]:<81} |")
         print(f"|{'-'*5}||{'-'*16}|{'-'*42}|{'-'*83}|")
@@ -92,12 +92,12 @@ def edita_servico():
         while id_servico == "":
             print("\n - INFORME UM ID - \n")
             id_servico = input(" Digite o ID do serviço que deseja editar: ")
-        
+
         # Verifica se o ID informado é existente no DB
         cursor.execute(" SELECT id_servico FROM servicos WHERE id_servico = ? ", (id_servico,))
         verifica_servico = cursor.fetchall()
-        
-        if verifica_servico == None:
+
+        if not verifica_servico:
             print("\n - SERVIÇO INEXISTENTE - \n")
             menu_servicos()
         else:
@@ -122,18 +122,18 @@ def edita_servico():
 
             elif opcao == "1":
                 instituicoes.instituicoes_disponiveis()
-                novo_id_instuicao = input(f" Digite o novo ID instituição do serviço {id_servico}: ").upper()
-                while novo_id_instuicao == '':
+                novo_id_instituicao = input(f" Digite o novo ID instituição do serviço {id_servico}: ").upper()
+                while novo_id_instituicao == '':
                     print("\n - INFORME UM ID INSTITUIÇÃO - \n")
-                    novo_id_instuicao = input(f" Digite o novo ID instituição do serviço {id_servico}: ").upper()
+                    novo_id_instituicao = input(f" Digite o novo ID instituição do serviço {id_servico}: ").upper()
 
-                cursor.execute(" SELECT * FROM instituicoes WHERE id_instituicao = ? ", novo_id_instuicao)
+                cursor.execute(" SELECT * FROM instituicoes WHERE id_instituicao = ? ", (novo_id_instituicao,))
                 verifica_id_instituicao = cursor.fetchall()
 
-                if verifica_id_instituicao == None:
-                    print(" - ID INSTITUIÇÃO INEXISTENTE - ")
+                if not verifica_id_instituicao:
+                    print("\n - ID INSTITUIÇÃO INEXISTENTE - \n")
                 else:
-                    cursor.execute(" UPDATE servicos SET fk_id_instituicao = ? WHERE id_servico = ? ", (novo_id_instuicao,id_servico,))
+                    cursor.execute(" UPDATE servicos SET fk_id_instituicao = ? WHERE id_servico = ? ", (novo_id_instituicao,id_servico,))
                     conexao_DB.commit()
                     print("\n - ID INSTITUIÇÃO EDITADO - \n")
                     visualiza_servico_selecionado(id_servico)
@@ -160,7 +160,7 @@ def edita_servico():
 
             else:
                 print("\n - OPÇÃO INVÁLIDA - \n")
-            
+
             menu_servicos()
 
 def insere_servico():
@@ -192,13 +192,13 @@ def insere_servico():
                 id_instituicao = input(" Digite o ID instituição do serviço: ")
 
             # Verifica se o ID instituição informado é existente na tabela de intituições
-            cursor.execute(" SELECT * FROM instituicoes WHERE id_instituicao = ? ", novo_id_instuicao)
+            cursor.execute(" SELECT * FROM instituicoes WHERE id_instituicao = ? ", (id_instituicao,))
             verifica_id_instituicao = cursor.fetchall()
 
-            if verifica_id_instituicao == None:
-                print(" - ID INSTITUIÇÃO INEXISTENTE - ")
+            if not verifica_id_instituicao:
+                print("\n - ID INSTITUIÇÃO INEXISTENTE - \n")
                 break
-                
+
             tipo_servico = input(" Digite o tipo do serviço: ").upper()
             while tipo_servico == '':
                 print("\n - INFORME UMA DESCRIÇÃO - \n")
@@ -209,6 +209,9 @@ def insere_servico():
 
             print("\n - SERVIÇO ADICIONADO - \n")
             menu_servicos()
+        
+        else:
+            print("\n - OPÇÃO INVÁLIDA - \n")
 
 def busca_servico():
     while True:
@@ -252,7 +255,7 @@ def busca_servico():
                 print("\n - INFORME UM VALOR - \n")
                 busca_id_instituicao = input(" Buscar pelo ID da instituição: ")
 
-            cursor.execute(f" SELECT * FROM servicos WHERE fk_id_instituicao = ? ", (busca_id,))
+            cursor.execute(f" SELECT * FROM servicos WHERE fk_id_instituicao = ? ", (busca_id_instituicao,))
             verifica_id_instituicao = cursor.fetchall()
 
             if not verifica_id_instituicao: # Verifica se a variável 'verifica_id_instituicao' está vazia
@@ -299,7 +302,7 @@ def busca_servico():
                 print(" >>> Considere a sequência: ID, Descrição, Email, Nome e Telefone separados por vírgula: \n")
                 for servico in verifica_tipo:
                     print(servico) # Exibe a variável 'servico' pois pode existir mais de um resultado, ou seja, exibe todos os resultados
-        
+
         else:
             print("\n - OPÇÃO INVÁLIDA - \n")
 
@@ -318,25 +321,27 @@ def exclui_servico():
         if opcao  == "0":
             print("\n - VOLTANDO - \n")
             break
+
         elif opcao == "1":
-            id_servico = input(" Digite o ID da serviço que deseja excluir: ")
+            id_servico = input(" Digite o ID do serviço que deseja excluir: ")
             while id_servico == '':
                 print("\n - INFORME UM ID - \n")
-                id_servico = input(" Digite o ID da serviço que deseja excluir: ")
+                id_servico = input(" Digite o ID do serviço que deseja excluir: ")
 
             cursor.execute(" SELECT id_servico FROM servicos WHERE id_servico = ? ", (id_servico,))
             verifica_id = cursor.fetchall()
 
-            if verifica_id == None:
-                print(f"\n - serviço > {id_servico} < INEXISTENTE - \n")
+            if not verifica_id:
+                print(f"\n - SERVIÇO > {id_servico} < INEXISTENTE - \n")
                 exclui_servico()
             else:
                 visualiza_servico_selecionado(id_servico)
-                confirma_exclusao = input(f" Tem certeza que deseja excluir a serviço {id_servico}? (s/n): ").upper()
+                confirma_exclusao = input(f" Tem certeza que deseja excluir o serviço {id_servico}? (s/n): ").upper()
                 if confirma_exclusao == "S":
                     cursor.execute(" DELETE FROM servicos WHERE id_servico = ? ", (id_servico,))
                     conexao_DB.commit()
-                    print("\n - serviço DELETADA - \n")
+                    print("\n - SERVIÇO DELETADO - \n")
+                    menu_servicos()
                 elif confirma_exclusao == "N":
                     print("\n - EXCLUSÃO NÃO CONFIRMADA - \n")
                     exclui_servico()
