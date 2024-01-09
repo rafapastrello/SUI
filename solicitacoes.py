@@ -16,10 +16,10 @@ def menu_solicitacoes():
 |   [0] ................................. VOLTAR   |
 |                                                  |
 |   [1] ............. Visualizar as solicitações   |
-|   [4] ..................... Editar solicitação   |
-|   [5] .................... Inserir solicitação   |
-|   [6] ..................... Buscar solicitação   |
-|   [7] .................... Excluir solicitação   |
+|   [2] ..................... Editar solicitação   |
+|   [3] .................... Inserir solicitação   |
+|   [4] ..................... Buscar solicitação   |
+|   [5] .................... Excluir solicitação   |
 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 
 >>> Escolha a opção: """)
@@ -29,16 +29,12 @@ def menu_solicitacoes():
         elif opcao == "1":
             visualiza_solicitacoes()
         elif opcao == "2":
-            contatos_solicitacoes()
-        elif opcao == "3":
-            descricoes_solicitacoes()
-        elif opcao == "4":
             edita_solicitacao()
-        elif opcao == "5":
+        elif opcao == "3":
             insere_solicitacao()
-        elif opcao == "6":
-            busca_solicitacao()
-        elif opcao == "7":
+        elif opcao == "4":
+            busca_solictacao()
+        elif opcao == "5":
             exclui_solicitacao()
         else:
             print("\n - OPÇÃO INVÁLIDA - \n")
@@ -60,15 +56,15 @@ def visualiza_solicitacoes():
     lista_solicitacoes = obtem_solicitacoes()
     
     # Exibe a tabela estilizada
-    print("\n - solicitações DISPONÍVEIS -")
-    print(f"{'=-'*30}")
-    print(f"| {'ID':<3} | {'NOME':<50} |")
-    print(f"|{'='*5}|{'='*52}|")
-    
+    print("\n - SOLICITAÇÕES DISPONÍVEIS -")
+    print(f"{'=-'*92}")
+    print(f"| {'ID':<2} || {'ID SERVIÇO':<10} | {'ID USUÁRIO':<10} | {'DESCRIÇÃO':<80} | {'ENDEREÇO':<50} | {'STATUS':<12} |")
+    print(f"|{'='*4}||{'='*12}|{'='*12}|{'='*82}|{'='*52}|{'='*14}|")
+
     for solicitacao in lista_solicitacoes:
-        print(f"| {solicitacao[0]:<3} | {solicitacao[3]:<50} |")
-        print(f"|{'-'*5}|{'-'*52}|")
-    print(f"{'=-'*30}\n")
+        print(f"| {solicitacao[0]:<2} || {solicitacao[1]:<10} | {solicitacao[2]:<10} | {solicitacao[3]:<80} | {solicitacao[4]:<50} | {solicitacao[5]:<12} |")
+        print(f"|{'-'*4}||{'-'*12}|{'-'*12}|{'-'*82}|{'-'*52}|{'-'*14}|")
+    print(f"{'=-'*92}\n")
 
 def visualiza_solicitacao_selecionada(id_solicitacao):
     solicitacoes = [] # Obtem as solicitacoes em lista
@@ -79,15 +75,15 @@ def visualiza_solicitacao_selecionada(id_solicitacao):
         solicitacoes.append(solicitacao) # Agrupa as listas em uma única lista
 
     # Exibe a tabela estilizada
-    print("\n - solicitação SELECIONADA -")
-    print(f"{'=-'*82}")
-    print(f"| {'ID':<3} | {'NOME':<30} | {'DESCRIÇÃO':<121} |")
-    print(f"|{'='*5}|{'='*32}|{'='*123}|")
-    
-    for solicitacao in solicitacoes:
-        print(f"| {solicitacao[0]:<3} | {solicitacao[3]:<30} | {solicitacao[1]:121} |")
-        print(f"|{'-'*5}|{'-'*32}|{'-'*123}|")
-    print(f"{'=-'*82}\n")
+    print("\n - SOLICITAÇÕES DISPONÍVEIS -")
+    print(f"{'=-'*92}")
+    print(f"| {'ID':<2} || {'ID SERVIÇO':<10} | {'ID USUÁRIO':<10} | {'DESCRIÇÃO':<80} | {'ENDEREÇO':<50} | {'STATUS':<12} |")
+    print(f"|{'='*4}||{'='*12}|{'='*12}|{'='*82}|{'='*52}|{'='*14}|")
+
+    for solicitacao in lista_solicitacoes:
+        print(f"| {solicitacao[0]:<2} || {solicitacao[1]:<10} | {solicitacao[2]:<10} | {solicitacao[3]:<80} | {solicitacao[4]:<50} | {solicitacao[5]:<12} |")
+        print(f"|{'-'*4}||{'-'*12}|{'-'*12}|{'-'*82}|{'-'*52}|{'-'*14}|")
+    print(f"{'=-'*92}\n")
 
 def edita_solicitacao():
     while True:
