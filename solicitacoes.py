@@ -87,7 +87,7 @@ def visualiza_solicitacao_selecionada(id_solicitacao):
 
 def edita_solicitacao():
     while True:
-        print("\n - EDITAR solicitação - \n")
+        print("\n - EDITAR SOLICITAÇÃO - \n")
         id_solicitacao = input(" Digite o ID da solicitação que deseja editar: ")
         while id_solicitacao == "":
             print("\n - INFORME UM ID - \n")
@@ -97,22 +97,23 @@ def edita_solicitacao():
         cursor.execute(" SELECT id_solicitacao FROM solicitacoes WHERE id_solicitacao = ? ", (id_solicitacao,))
         verifica_solicitacao = cursor.fetchall()
         
-        if verifica_solicitacao == None:
-            print("\n - solicitação INEXISTENTE - \n")
+        if not verifica_solicitacao:
+            print("\n - SOLICITAÇÃO INEXISTENTE - \n")
             menu_solicitacoes()
         else:
             visualiza_solicitacao_selecionada(id_solicitacao)
             opcao = input(f"""
     =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
-    |___________ EDITAR solicitação {id_solicitacao:<3} ___________|
+    |___________ EDITAR SOLICITAÇÃO {id_solicitacao:<3} ___________|
     |-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=|
     |                                              |
     |   [0] ............................. VOLTAR   |
     |                                              |
-    |   [1] ................... Editar descrição   |
-    |   [2] ....................... Editar email   |
-    |   [3] ........................ Editar nome   |
-    |   [4] .................... Editar telefone   |
+    |   [1] .................. Editar ID serviço   |
+    |   [2] .................. Editar ID usuário   |
+    |   [3] ................... Editar descrição   |
+    |   [4] .................... Editar endereço   |
+    |   [5] ...................... Editar status   |
     =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 
     >>> Escolha a opção: """)
@@ -120,6 +121,24 @@ def edita_solicitacao():
                 print("\n - VOLTANDO - \n")
                 break
             elif opcao == "1":
+                novo_id_servico = input(f" Digite o novo ID serviço da solicitação {id_solicitacao}: ")
+                while novo_id_servico == '':
+                    print("\n - INFORME UM ID SERVIÇO - \n")
+                    novo_id_servico = input(f" Digite o novo ID serviço da solicitação {id_solicitacao}: ")
+                cursor.execute(" UPDATE solicitacoes SET fk_id_servico = ? WHERE id_solicitacao = ? ", (novo_id_servico,id_solicitacao,))
+                conexao_DB.commit()
+                print("\n - ID SERVIÇO EDITADO - \n")
+
+            elif opcao == "2":
+                novo_id_usuario = input(f" Digite o novo ID usuário da solicitação {id_solicitacao}: ")
+                while novo_id_usuario == '':
+                    print("\n - INFORME UM ID USUÁRIO - \n")
+                    novo_id_usuario = input(f" Digite o novo ID usuário da solicitação {id_solicitacao}: ")
+                cursor.execute(" UPDATE solicitacoes SET fk_id_usuario = ? WHERE id_solicitacao = ? ", (novo_id_usuario,id_solicitacao,))
+                conexao_DB.commit()
+                print("\n - ID USUÁRIO EDITADO - \n")
+
+            elif opcao == "3":
                 nova_descricao_solicitacao = input(f" Digite a nova descrição da solicitação {id_solicitacao}: ").upper()
                 while nova_descricao_solicitacao == '':
                     print("\n - INFORME UMA DESCRIÇÃO - \n")
@@ -128,32 +147,50 @@ def edita_solicitacao():
                 conexao_DB.commit()
                 print("\n - DESCRIÇÃO EDITADA - \n")
 
-            elif opcao == "2":
-                novo_email_solicitacao = input(f" Digite o novo email da solicitação {id_solicitacao}: ")
-                while novo_email_solicitacao == '':
-                    print("\n - INFORME UM EMAIL - \n")
-                    novo_email_solicitacao = input(f" Digite o novo email da solicitação {id_solicitacao}: ")
-                cursor.execute(" UPDATE solicitacoes SET email_solicitacao = ? WHERE id_solicitacao = ? ", (novo_email_solicitacao,id_solicitacao,))
-                conexao_DB.commit()
-                print("\n - EMAIL EDITADO - \n")
-
-            elif opcao == "3":
-                novo_nome_solicitacao = input(f" Digite o novo nome da solicitação {id_solicitacao}: ").upper()
-                while novo_nome_solicitacao == '':
-                    print("\n - INFORME UM NOME - \n")
-                    novo_nome_solicitacao = input(f" Digite o novo nome da solicitação {id_solicitacao}: ").upper()
-                cursor.execute(" UPDATE solicitacoes SET nome_solicitacao = ? WHERE id_solicitacao = ? ", (novo_nome_solicitacao,id_solicitacao,))
-                conexao_DB.commit()
-                print("\n - NOME EDITADO - \n")
-
             elif opcao == "4":
-                novo_telefone_solicitacao = input(f" Digite o novo telefone da solicitação {id_solicitacao}: ")
-                while novo_telefone_solicitacao == '':
-                    print("\n - INFORME UM TELEFONE - \n")
-                    novo_telefone_solicitacao = input(f" Digite o novo telefone da solicitação {id_solicitacao}: ")
-                cursor.execute(" UPDATE solicitacoes SET telefone_solicitacao = ? WHERE id_solicitacao = ? ", (novo_telefone_solicitacao,id_solicitacao,))
+                novo_endereco_solicitacao = input(f" Digite o novo endereço da solicitação {id_solicitacao}: ")
+                while novo_endereco_solicitacao == '':
+                    print("\n - INFORME UM ENDEREÇO - \n")
+                    novo_endereco_solicitacao = input(f" Digite o novo endereço da solicitação {id_solicitacao}: ")
+                cursor.execute(" UPDATE solicitacoes SET endereco_solicitacao = ? WHERE id_solicitacao = ? ", (novo_endereco_solicitacao,id_solicitacao,))
                 conexao_DB.commit()
-                print("\n - TELEFONE EDITADO - \n")
+                print("\n - ENDEREÇO EDITADO - \n")
+
+            elif opcao == "5":
+                while True:
+                    opcao = input(f"""
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+|_______ EDITAR STATUS SOLICITAÇÃO _______|
+|-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-|
+|   [0] ........................ VOLTAR   |
+|                                         |
+|   [1] ...................... Recebida   |
+|   [2] .................... Em análise   |
+|   [3] .................. Em andamento   |
+|   [4] ..................... Concluída   |
+|   [5] ..................... Cancelada   |
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+>>> Digite o novo status da solicitação {id_solicitacao}: """)
+                    if opcao  == "0":
+                        print("\n - VOLTANDO - \n")
+                        break
+                    elif opcao == "1":
+                        novo_status_solicitacao = "Recebida"
+                    elif opcao == "2":
+                        novo_status_solicitacao = "Em análise"
+                    elif opcao == "3":
+                        novo_status_solicitacao = "Em andamento"
+                    elif opcao == "4":
+                        novo_status_solicitacao = "Concluída"
+                    elif opcao == "5":
+                        novo_status_solicitacao = "Cancelada"
+                    else:
+                        print("\n - OPÇÃO INVÁLIDA - \n")
+
+                    cursor.execute(" UPDATE solicitacoes SET status_solicitacao = ? WHERE id_solicitacao = ? ", (novo_status_solicitacao,id_solicitacao,))
+                    conexao_DB.commit()
+                    print("\n - STATUS EDITADO - \n")
 
             else:
                 print("\n - OPÇÃO INVÁLIDA - \n")
@@ -164,7 +201,7 @@ def insere_solicitacao():
     while True:
         opcao = input(f"""
 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
-|____________ INSERIR solicitação _____________|
+|____________ INSERIR SOLICITAÇÃO _____________|
 |-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=|
 |                                              |
 |   [0] ............................. VOLTAR   |
@@ -205,7 +242,7 @@ def busca_solicitacao():
     while True:
         opcao = input(f"""
 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
-|___________ BUSCAR solicitação ___________|
+|___________ BUSCAR SOLICITAÇÃO ___________|
 |-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=|
 |                                          |
 |   [0] ......................... VOLTAR   |
@@ -317,7 +354,7 @@ def exclui_solicitacao():
     while True:
         opcao = input(f"""
 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
-|____________ EXCLUIR solicitação _____________|
+|____________ EXCLUIR SOLICITAÇÃO _____________|
 |-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=|
 |                                              |
 |   [0] ............................. VOLTAR   |

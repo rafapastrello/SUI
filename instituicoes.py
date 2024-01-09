@@ -131,7 +131,7 @@ def edita_instituicao():
         cursor.execute(" SELECT id_instituicao FROM instituicoes WHERE id_instituicao = ? ", (id_instituicao,))
         verifica_instituicao = cursor.fetchall()
         
-        if verifica_instituicao == None:
+        if not verifica_instituicao:
             print("\n - INSTITUIÇÃO INEXISTENTE - \n")
             menu_instituicoes()
         else:
