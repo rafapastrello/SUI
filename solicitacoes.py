@@ -1,4 +1,5 @@
 import sqlite3
+import servicos
 
 # Cria uma conexão com o banco de dados
 conexao_DB = sqlite3.connect('DB_SUI.db')
@@ -176,15 +177,15 @@ def edita_solicitacao():
                         print("\n - VOLTANDO - \n")
                         break
                     elif opcao == "1":
-                        novo_status_solicitacao = "Recebida"
+                        novo_status_solicitacao = "RECEBIDA"
                     elif opcao == "2":
-                        novo_status_solicitacao = "Em análise"
+                        novo_status_solicitacao = "EM ANÁLISE"
                     elif opcao == "3":
-                        novo_status_solicitacao = "Em andamento"
+                        novo_status_solicitacao = "EM ANDAMENTO"
                     elif opcao == "4":
-                        novo_status_solicitacao = "Concluída"
+                        novo_status_solicitacao = "CONCLUÍDA"
                     elif opcao == "5":
-                        novo_status_solicitacao = "Cancelada"
+                        novo_status_solicitacao = "CANCELADA"
                     else:
                         print("\n - OPÇÃO INVÁLIDA - \n")
 
@@ -200,43 +201,58 @@ def edita_solicitacao():
 def insere_solicitacao():
     while True:
         opcao = input(f"""
-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
-|____________ INSERIR SOLICITAÇÃO _____________|
-|-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=|
-|                                              |
-|   [0] ............................. VOLTAR   |
-|   [1] ................ Inserir solicitação   |
-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+|_________ INSERIR SOLICITAÇÃO __________|
+|-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=|
+|                                        |
+|   [0] ....................... VOLTAR   |
+|   [1] .......... Inserir solicitação   |
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 
 >>> Escolha a opção: """)
         if opcao  == "0":
             print("\n - VOLTANDO - \n")
             break
         elif opcao == "1":
-            nome_solicitacao = input(" Digite o nome da solicitação: ").upper()
-            while nome_solicitacao == '':
-                print("\n - INFORME UM NOME - \n")
-                nome_solicitacao = input(" Digite o nome da solicitação: ").upper()
+            servicos.servicos_disponiveis()
+            id_servico = input(" Digite o ID serviço da solicitação: ")
+            while id_servico == '':
+                print("\n - INFORME UM ID SERVIÇO - \n")
+                id_servico = input(" Digite o ID serviço da solicitação: ")
+            # Verifica se o ID serviço informado é existente na tabela servicos
+            cursor.execute(" SELECT * FROM servicos WHERE id_servico = ? ", (id_servico,))
+            verifica_id_servico = cursor.fetchall()
+
+            if not verifica_id_servico:
+                print("\n - ID SERVIÇO INEXISTENTE - \n")
+                break
+
+            id_cidadao = input(" Digite o ID cidadão da solicitação: ")
+            while id_cidadao == '':
+                print("\n - INFORME UM ID CIDADÃO - \n")
+                id_cidadao = input(" Digite o ID cidadão da solicitação: ")
+            # Verifica se o ID cidadao informado é existente na tabela usuarios
+            cursor.execute(" SELECT * FROM usuarios WHERE id_usuario = ? AND categoria_usuario <> 'Administrador' ", (id_cidadao,))
+            verifica_id_cidadao = cursor.fetchall()
+
+            if not verifica_id_cidadao:
+                print("\n - ID CIDADÃO INEXISTENTE - \n")
+                break
 
             descricao_solicitacao = input(" Digite a descrição da solicitação: ").upper()
             while descricao_solicitacao == '':
                 print("\n - INFORME UMA DESCRIÇÃO - \n")
                 descricao_solicitacao = input(" Digite a descrição da solicitação: ").upper()
 
-            email_solicitacao = input(" Digite o email da solicitação: ")
-            while email_solicitacao == '':
-                print("\n - INFORME UM EMAIL - \n")
-                email_solicitacao = input(" Digite o email da solicitação: ")
+            endereco_solicitacao = input(" Digite o endereço da solicitação ").upper()
+            while endereco_solicitacao == '':
+                print("\n - INFORME UM ENDEREÇO - \n")
+                endereco_solicitacao = input(" Digite o endereço da solicitação ").upper()
 
-            telefone_solicitacao = input(" Digite o telefone da solicitação ")
-            while telefone_solicitacao == '':
-                print("\n - INFORME UM TELEFONE - \n")
-                telefone_solicitacao = input(" Digite o telefone da solicitação: ")
-
-            cursor.execute(" INSERT INTO solicitacoes (descricao_solicitacao, email_solicitacao, nome_solicitacao, telefone_solicitacao) VALUES (?,?,?,?) ", (descricao_solicitacao, email_solicitacao, nome_solicitacao, telefone_solicitacao,))
+            cursor.execute(" INSERT INTO solicitacoes (fk_id_servico, fk_id_usuario, descricao_solicitacao, endereco_solicitacao, status_solicitacao) VALUES (?,?,?,?,'RECEBIDA') ", (id_servico, id_cidadao, descricao_solicitacao, endereco_solicitacao,))
             conexao_DB.commit()
 
-            print("\n - solicitação ADICIONADA - \n")
+            print("\n - SOLICITAÇÃO ADICIONADA - \n")
 
 def busca_solicitacao():
     while True:

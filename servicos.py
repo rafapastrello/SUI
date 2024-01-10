@@ -191,7 +191,7 @@ def insere_servico():
                 print("\n - INFORME UM ID INSTITUIÇÃO - \n")
                 id_instituicao = input(" Digite o ID instituição do serviço: ")
 
-            # Verifica se o ID instituição informado é existente na tabela de intituições
+            # Verifica se o ID instituição informado é existente na tabela intituicoes
             cursor.execute(" SELECT * FROM instituicoes WHERE id_instituicao = ? ", (id_instituicao,))
             verifica_id_instituicao = cursor.fetchall()
 
