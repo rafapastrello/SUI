@@ -232,7 +232,7 @@ def insere_solicitacao():
                 print("\n - INFORME UM ID CIDADÃO - \n")
                 id_cidadao = input(" Digite o ID cidadão da solicitação: ")
             # Verifica se o ID cidadao informado é existente na tabela usuarios
-            cursor.execute(" SELECT * FROM usuarios WHERE id_usuario = ? AND categoria_usuario <> 'Administrador' ", (id_cidadao,))
+            cursor.execute(" SELECT * FROM usuarios WHERE id_usuario = ? AND categoria_usuario = 'Cidadão' ", (id_cidadao,))
             verifica_id_cidadao = cursor.fetchall()
 
             if not verifica_id_cidadao:
@@ -262,11 +262,12 @@ def busca_solicitacao():
 |-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=|
 |                                          |
 |   [0] ......................... VOLTAR   |
-|   [1] ................. Buscar pelo ID   |
-|   [2] .......... Buscar pela descrição   |
-|   [3] .............. Buscar pelo email   |
-|   [4] ............... Buscar pelo nome   |
-|   [5] ........... Buscar pelo telefone   |
+|   [1] ..... Buscar pelo ID solicitação   |
+|   [2] ......... Buscar pelo ID serviço   |
+|   [3] ......... Buscar pelo ID cidadão   |
+|   [4] .......... Buscar pela descrição   |
+|   [5] ........... Buscar pelo endereço   |
+|   [6] ............. Buscar pelo status   |
 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 
 >>> Escolha a opção: """)
@@ -280,7 +281,7 @@ def busca_solicitacao():
                 print("\n - INFORME UM VALOR - \n")
                 busca_id = input(" Busca pelo ID da solicitação: ")
 
-            cursor.execute(" SELECT * FROM solicitacoes WHERE id_solicitacao = ? ", (busca_id,))
+            cursor.execute(" SELECT * FROM solicitacoes WHERE id_solicitacao = ? AND categoria_usuario = 'Cidadão' ", (busca_id,))
             verifica_id = cursor.fetchall()
 
             if not verifica_id: # Verifica se a variável 'verifica_id' está vazia
@@ -288,16 +289,52 @@ def busca_solicitacao():
                 busca_solicitacao()
             else:
                 print("\n - RESULTADO(S): - \n")
-                print(" >>> Considere a sequência: ID, Descrição, Email, Nome e Telefone separados por vírgula: \n")
+                print(" >>> Considere a sequência: ID solicitação, ID serviço, ID cidadão, Descrição, Endereço e Status separados por vírgula: \n")
                 print(verifica_id) # Exibe a variável 'verifica_id' pois existe apenas um ID solicitação
 
         elif opcao == "2":
+            busca_id_servico = input(" Buscar pelo ID serviço da solicitação: ")
+            while busca_id_servico == '':
+                print("\n - INFORME UM VALOR - \n")
+                busca_id_servico = input(" Buscar pelo ID serviço da solicitação: ")
+
+            cursor.execute(f" SELECT * FROM solicitacoes WHERE fk_id_servico = ? AND categoria_usuario = 'Cidadão' ", (busca_id_servico,))
+            verifica_id_servico = cursor.fetchall()
+
+            if not verifica_id_servico: # Verifica se a variável 'verifica_id_servico' está vazia
+                print("\n - A BUSCA PELO ID SERVIÇO INFORMADO NÃO FOI ENCONTRADA - \n")
+                busca_solicitacao()
+            else:
+                print("\n - RESULTADO(S): - \n")
+                print(" >>> Considere a sequência: ID solicitação, ID serviço, ID cidadão, Descrição, Endereço e Status separados por vírgula: \n")
+                for solicitacao in verifica_id_servico:
+                    print(solicitacao) # Exibe a variável 'solicitacao' pois pode existir mais de um resultado, ou seja, exibe todos os resultados
+
+        elif opcao == "3":
+            busca_id_cidadao = input(" Buscar pelo ID cidadão da solicitação: ")
+            while busca_id_cidadao == '':
+                print("\n - INFORME UM VALOR - \n")
+                busca_id_cidadao = input(" Buscar pelo ID cidadão da solicitação: ")
+
+            cursor.execute(f" SELECT * FROM solicitacoes WHERE fk_id_usuario = ? AND categoria_usuario = 'Cidadão' ", (busca_id_usuario,))
+            verifica_id_cidadao = cursor.fetchall()
+
+            if not verifica_id_cidadao: # Verifica se a variável 'verifica_id_cidadao' está vazia
+                print("\n - A BUSCA PELO ID CIDADÃO INFORMADO NÃO FOI ENCONTRADA - \n")
+                busca_solicitacao()
+            else:
+                print("\n - RESULTADO(S): - \n")
+                print(" >>> Considere a sequência: ID solicitação, ID serviço, ID cidadão, Descrição, Endereço e Status separados por vírgula: \n")
+                for solicitacao in verifica_id_cidadao:
+                    print(solicitacao) # Exibe a variável 'solicitacao' pois pode existir mais de um resultado, ou seja, exibe todos os resultados
+
+        elif opcao == "4":
             busca_descricao = input(" Buscar pela descrição da solicitação: ").upper()
             while busca_descricao == '':
                 print("\n - INFORME UM VALOR - \n")
                 busca_descricao = input(" Buscar pela descrição da solicitação: ").upper()
 
-            cursor.execute(" SELECT * FROM solicitacoes WHERE descricao_solicitacao LIKE ? ", ('%' + busca_descricao + '%',))
+            cursor.execute(" SELECT * FROM solicitacoes WHERE descricao_solicitacao LIKE ? AND categoria_usuario = 'Cidadão' ", ('%' + busca_descricao + '%',))
             verifica_descricao = cursor.fetchall()
 
             if not verifica_descricao: # Verifica se a variável 'verifica_descricao' está vazia
@@ -305,62 +342,70 @@ def busca_solicitacao():
                 busca_solicitacao()
             else:
                 print("\n - RESULTADO(S): - \n")
-                print(" >>> Considere a sequência: ID, Descrição, Email, Nome e Telefone separados por vírgula: \n")
+                print(" >>> Considere a sequência: ID solicitação, ID serviço, ID cidadão, Descrição, Endereço e Status separados por vírgula: \n")
                 for solicitacao in verifica_descricao:
                     print(solicitacao) # Exibe a variável 'solicitacao' pois pode existir mais de um resultado, ou seja, exibe todos os resultados
 
-        elif opcao == "3":
-            busca_email = input(" Buscar pelo email da solicitação: ")
-            while busca_email == '':
-                print("\n - INFORME UM VALOR - \n")
-                busca_email = input(" Buscar pelo email da solicitação: ")
-
-            cursor.execute(f" SELECT * FROM solicitacoes WHERE email_solicitacao LIKE ? ", ('%' + busca_email + '%',))
-            verifica_email = cursor.fetchall()
-
-            if not verifica_email: # Verifica se a variável 'verifica_email' está vazia
-                print("\n - A BUSCA PELO EMAIL INFORMADO NÃO FOI ENCONTRADA - \n")
-                busca_solicitacao()
-            else:
-                print("\n - RESULTADO(S): - \n")
-                print(" >>> Considere a sequência: ID, Descrição, Email, Nome e Telefone separados por vírgula: \n")
-                for solicitacao in verifica_email:
-                    print(solicitacao) # Exibe a variável 'solicitacao' pois pode existir mais de um resultado, ou seja, exibe todos os resultados
-
-        elif opcao == "4":
-            busca_nome = input(" Buscar pelo nome da solicitação: ").upper()
-            while busca_nome == '':
-                print("\n - INFORME UM VALOR - \n")
-                busca_nome = input(" Buscar pelo nome da solicitação: ").upper()
-
-            cursor.execute(f" SELECT * FROM solicitacoes WHERE nome_solicitacao LIKE ? ", ('%' + busca_nome + '%',))
-            verifica_nome = cursor.fetchall()
-
-            if not verifica_nome: # Verifica se a variável 'verifica_nome' está vazia
-                print("\n - A BUSCA PELO NOME INFORMADO NÃO FOI ENCONTRADA - \n")
-                busca_solicitacao()
-            else:
-                print("\n - RESULTADO(S): - \n")
-                print(" >>> Considere a sequência: ID, Descrição, Email, Nome e Telefone separados por vírgula: \n")
-                for solicitacao in verifica_nome:
-                    print(solicitacao) # Exibe a variável 'solicitacao' pois pode existir mais de um resultado, ou seja, exibe todos os resultados
-
         elif opcao == "5":
-            busca_telefone = input(" Buscar pelo telefone da solicitação: ")
-            while busca_telefone == '':
+            busca_endereco = input(" Buscar pelo endereço da solicitação: ").upper()
+            while busca_endereco == '':
                 print("\n - INFORME UM VALOR - \n")
-                busca_telefone = input(" Buscar pelo telefone da solicitação: ")
-            
-            cursor.execute(f" SELECT * FROM solicitacoes WHERE telefone_solicitacao LIKE ? ", ('%' + busca_telefone + '%',))
-            verifica_telefone = cursor.fetchall()
+                busca_endereco = input(" Buscar pelo endereço da solicitação: ").upper()
 
-            if not verifica_telefone: # Verifica se a variável 'verifica_telefone' está vazia
-                print("\n - A BUSCA PELO NOME INFORMADO NÃO FOI ENCONTRADA - \n")
+            cursor.execute(f" SELECT * FROM solicitacoes WHERE endereco_solicitacao LIKE ? AND categoria_usuario = 'Cidadão' ", ('%' + busca_endereco + '%',))
+            verifica_endereco = cursor.fetchall()
+
+            if not verifica_endereco: # Verifica se a variável 'verifica_endereco' está vazia
+                print("\n - A BUSCA PELO ENDEREÇO INFORMADO NÃO FOI ENCONTRADA - \n")
                 busca_solicitacao()
             else:
                 print("\n - RESULTADO(S): - \n")
-                print(" >>> Considere a sequência: ID, Descrição, Email, Nome e Telefone separados por vírgula: \n")
-                for solicitacao in verifica_telefone:
+                print(" >>> Considere a sequência: ID solicitação, ID serviço, ID cidadão, Descrição, Endereço e Status separados por vírgula: \n")
+                for solicitacao in verifica_endereco:
+                    print(solicitacao) # Exibe a variável 'solicitacao' pois pode existir mais de um resultado, ou seja, exibe todos os resultados
+
+        elif opcao == "6":
+            while True:
+                opcao = input(f"""
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+|______ BUSCAR PELO STATUS DA SOLICITAÇÃO ______|
+|-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-|
+|   [0] .............................. VOLTAR   |
+|                                               |
+|   [1] ............................ Recebida   |
+|   [2] .......................... Em análise   |
+|   [3] ........................ Em andamento   |
+|   [4] ........................... Concluída   |
+|   [5] ........................... Cancelada   |
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+>>> Digite a opção: """)
+                if opcao  == "0":
+                    print("\n - VOLTANDO - \n")
+                    break
+                elif opcao == "1":
+                    busca_status = "RECEBIDA"
+                elif opcao == "2":
+                    busca_status = "EM ANÁLISE"
+                elif opcao == "3":
+                    busca_status = "EM ANDAMENTO"
+                elif opcao == "4":
+                    busca_status = "CONCLUÍDA"
+                elif opcao == "5":
+                    busca_status = "CANCELADA"
+                else:
+                    print("\n - OPÇÃO INVÁLIDA - \n")
+            
+            cursor.execute(f" SELECT * FROM solicitacoes WHERE status_solicitacao = ? AND categoria_usuario = 'Cidadão' ", (busca_status,))
+            verifica_status = cursor.fetchall()
+
+            if not verifica_status: # Verifica se a variável 'verifica_status' está vazia
+                print("\n - A BUSCA PELO STATUS INFORMADO NÃO FOI ENCONTRADA - \n")
+                busca_solicitacao()
+            else:
+                print("\n - RESULTADO(S): - \n")
+                print(" >>> Considere a sequência: ID solicitação, ID serviço, ID cidadão, Descrição, Endereço e Status separados por vírgula: \n")
+                for solicitacao in verifica_status:
                     print(solicitacao) # Exibe a variável 'solicitacao' pois pode existir mais de um resultado, ou seja, exibe todos os resultados
         
         else:
