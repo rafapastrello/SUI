@@ -371,7 +371,7 @@ def exclui_instituicao():
             cursor.execute(" SELECT id_instituicao FROM instituicoes WHERE id_instituicao = ? ", (id_instituicao,))
             verifica_id = cursor.fetchall()
 
-            if verifica_id == None:
+            if not verifica_id:
                 print(f"\n - INSTITUIÇÃO > {id_instituicao} < INEXISTENTE - \n")
                 exclui_instituicao()
             else:

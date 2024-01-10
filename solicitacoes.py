@@ -435,16 +435,16 @@ def exclui_solicitacao():
             cursor.execute(" SELECT id_solicitacao FROM solicitacoes WHERE id_solicitacao = ? ", (id_solicitacao,))
             verifica_id = cursor.fetchall()
 
-            if verifica_id == None:
-                print(f"\n - solicitação > {id_solicitacao} < INEXISTENTE - \n")
+            if not verifica_id:
+                print(f"\n - SOLICITAÇÃO > {id_solicitacao} < INEXISTENTE - \n")
                 exclui_solicitacao()
             else:
                 visualiza_solicitacao_selecionada(id_solicitacao)
                 confirma_exclusao = input(f" Tem certeza que deseja excluir a solicitação {id_solicitacao}? (s/n): ").upper()
                 if confirma_exclusao == "S":
-                    cursor.execute(" DELETE FROM solicitacoes WHERE id_solicitacao = ? ", (id_solicitacao,))
+                    cursor.execute(" DELETE FROM solicitacoes WHERE id_solicitacao = ? AND categoria_usuario = 'Cidadão' ", (id_solicitacao,))
                     conexao_DB.commit()
-                    print("\n - solicitação DELETADA - \n")
+                    print("\n - SOLICITAÇÃO DELETADA - \n")
                 elif confirma_exclusao == "N":
                     print("\n - EXCLUSÃO NÃO CONFIRMADA - \n")
                     exclui_solicitacao()
