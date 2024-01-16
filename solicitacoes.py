@@ -24,7 +24,7 @@ def menu_solicitacoes():
 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 
 >>> Escolha a opção: """)
-        if opcao  == "0":
+        if opcao == "0":
             print("\n - VOLTANDO - \n")
             break
         elif opcao == "1":
@@ -54,7 +54,7 @@ def obtem_solicitacoes(): # Obtem as solicitacoes em lista
     return solicitacoes
 
 def visualiza_solicitacoes():
-    lista_solicitacoes = obtem_solicitacoes()
+    solicitacoes = obtem_solicitacoes()
     
     # Exibe a tabela estilizada
     print("\n - SOLICITAÇÕES DISPONÍVEIS -")
@@ -62,7 +62,7 @@ def visualiza_solicitacoes():
     print(f"| {'ID':<2} || {'ID SERVIÇO':<10} | {'ID USUÁRIO':<10} | {'DESCRIÇÃO':<80} | {'ENDEREÇO':<50} | {'STATUS':<12} |")
     print(f"|{'='*4}||{'='*12}|{'='*12}|{'='*82}|{'='*52}|{'='*14}|")
 
-    for solicitacao in lista_solicitacoes:
+    for solicitacao in solicitacoes:
         print(f"| {solicitacao[0]:<2} || {solicitacao[1]:<10} | {solicitacao[2]:<10} | {solicitacao[3]:<80} | {solicitacao[4]:<50} | {solicitacao[5]:<12} |")
         print(f"|{'-'*4}||{'-'*12}|{'-'*12}|{'-'*82}|{'-'*52}|{'-'*14}|")
     print(f"{'=-'*92}\n")
@@ -81,7 +81,7 @@ def visualiza_solicitacao_selecionada(id_solicitacao):
     print(f"| {'ID':<2} || {'ID SERVIÇO':<10} | {'ID USUÁRIO':<10} | {'DESCRIÇÃO':<80} | {'ENDEREÇO':<50} | {'STATUS':<12} |")
     print(f"|{'='*4}||{'='*12}|{'='*12}|{'='*82}|{'='*52}|{'='*14}|")
 
-    for solicitacao in lista_solicitacoes:
+    for solicitacao in solicitacoes:
         print(f"| {solicitacao[0]:<2} || {solicitacao[1]:<10} | {solicitacao[2]:<10} | {solicitacao[3]:<80} | {solicitacao[4]:<50} | {solicitacao[5]:<12} |")
         print(f"|{'-'*4}||{'-'*12}|{'-'*12}|{'-'*82}|{'-'*52}|{'-'*14}|")
     print(f"{'=-'*92}\n")
@@ -118,7 +118,7 @@ def edita_solicitacao():
     =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 
     >>> Escolha a opção: """)
-            if opcao  == "0":
+            if opcao == "0":
                 print("\n - VOLTANDO - \n")
                 break
             elif opcao == "1":
@@ -173,7 +173,7 @@ def edita_solicitacao():
 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
 >>> Digite o novo status da solicitação {id_solicitacao}: """)
-                    if opcao  == "0":
+                    if opcao == "0":
                         print("\n - VOLTANDO - \n")
                         break
                     elif opcao == "1":
@@ -210,7 +210,7 @@ def insere_solicitacao():
 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 
 >>> Escolha a opção: """)
-        if opcao  == "0":
+        if opcao == "0":
             print("\n - VOLTANDO - \n")
             break
         elif opcao == "1":
@@ -271,7 +271,7 @@ def busca_solicitacao():
 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 
 >>> Escolha a opção: """)
-        if opcao  == "0":
+        if opcao == "0":
             print("\n - VOLTANDO - \n")
             break
 
@@ -380,7 +380,7 @@ def busca_solicitacao():
 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
 >>> Digite a opção: """)
-                if opcao  == "0":
+                if opcao == "0":
                     print("\n - VOLTANDO - \n")
                     break
                 elif opcao == "1":
@@ -423,7 +423,7 @@ def exclui_solicitacao():
 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 
 >>> Escolha a opção: """)
-        if opcao  == "0":
+        if opcao == "0":
             print("\n - VOLTANDO - \n")
             break
         elif opcao == "1":
